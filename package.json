@@ -1,6 +1,5 @@
 {
   "name": "pjts-suggestion-box",
-  "private": true,
   "description": "Suggestion box for Project Trans",
   "version": "0.0.0",
   "type": "module",
@@ -10,8 +9,11 @@
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly",
     "preview": "vite preview"
   },
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
-    "vue": "^3.4.0"
+    "vue": ">=3.4.0"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.64",
