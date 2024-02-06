@@ -17,10 +17,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "vue": ">=3.4.0"
+    "vue": "3"
   },
   "devDependencies": {
-    "@iconify-json/mdi": "^1.1.64",
+    "@iconify-json/octicon": "^1.1.52",
     "@types/node": "^20.11.16",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",

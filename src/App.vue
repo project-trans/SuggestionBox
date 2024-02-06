@@ -10,7 +10,7 @@
     </label>
     <hr class="border-t-1 border-b-none w-full border-dotted" />
     <div class="flex justify-around px-2 pb-2">
-      <label class="cursor-pointer i-mdi:paperclip block text-2xl">
+      <label class="cursor-pointer i-octicon:image-24 block text-2xl">
         <input
           type="file"
           name="suggestionImage"
@@ -23,7 +23,7 @@
       <button
         type="submit"
         :aria-label="sendText || '发送'"
-        class="i-mdi:send-variant-outline hover:i-mdi:send-variant block text-2xl"
+        class="i-octicon:paper-airplane-24 block text-2xl cursor-pointer"
       />
     </div>
     <details v-if="imageURLs.length !== 0">

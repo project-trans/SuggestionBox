@@ -7,7 +7,7 @@ Suggestion box for Project Trans's website.
 ```bash
 # Or npm, yarn, bun, etc.
 pnpm add pjts-suggestion-box
-pnpm add @iconify-json/mdi -D # Suggestion Box uses MDI.
+pnpm add @iconify-json/octicon -D # Suggestion Box uses octicon.
 ```
 
 In your Vue component:

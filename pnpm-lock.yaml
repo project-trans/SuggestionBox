@@ -22,9 +22,9 @@ dependencies:
     version: 3.4.15(typescript@5.3.3)
 
 devDependencies:
-  '@iconify-json/mdi':
-    specifier: ^1.1.64
-    version: 1.1.64
+  '@iconify-json/octicon':
+    specifier: ^1.1.52
+    version: 1.1.52
   '@types/node':
     specifier: ^20.11.16
     version: 20.11.16
@@ -673,8 +673,8 @@ packages:
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
     dev: true
 
-  /@iconify-json/mdi@1.1.64:
-    resolution: {integrity: sha512-zGeo5TjhNFAY6FmSDBLAzDO811t77r6v/mDi7CAL9w5eXqKez6bIjk8R9AL/RHIeq44ALP4Ozr4lMqFTkHr7ug==}
+  /@iconify-json/octicon@1.1.52:
+    resolution: {integrity: sha512-0bLc9t54p55nVlQ8SKF7BYOBTy/Q5SfvqYcOD09APDksRTikO45MwKTfG3fzkbaIwpobuVQM1sXiSCsyWJX9Tg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
