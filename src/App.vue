@@ -1,6 +1,10 @@
 <template>
   <form class="flex flex-col border-1 border-dashed rounded-md" @submit.prevent="handleSubmit">
-    <textarea name="suggestionText" class="resize-none p-2 min-h-0 outline-none border-none" />
+    <textarea
+      name="suggestionText"
+      class="resize-none p-2 min-h-0 outline-none border-none"
+      :placeholder="placeholder"
+    />
     <hr class="border-t-1 border-b-none w-full border-dotted" />
     <div class="flex justify-around px-2 pb-2">
       <label class="cursor-pointer i-mdi:paperclip block text-2xl">
@@ -37,7 +41,7 @@
 import 'uno.css';
 import { ref, watch } from 'vue';
 
-const props = defineProps<{ sendText: string; targetURL: string }>();
+const props = defineProps<{ sendText: string; targetURL: string; placeholder: string }>();
 
 const files = ref<FileList | null>(null);
 
