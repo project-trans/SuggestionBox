@@ -14,7 +14,7 @@ In your Vue component:
 
 ```vue
 <template>
-  <SuggestionBox target-url="https://example.com" send-text="发送" />
+  <SuggestionBox target-url="https://example.com" send-text="发送" placeholder="114514" />
 </template>
 
 <script>
@@ -25,6 +25,7 @@ import SuggestionBox from 'pjts-suggestion-box';
 In `uno.config.ts`:
 
 ```ts
+import presetSBox from 'pjts-suggestion-box/dist/preset';
 import { defineConfig, presetUno, presetIcons } from 'unocss';
 
 export default defineConfig({
@@ -44,6 +45,8 @@ export default defineConfig({
     presetUno(),
     // SuggestionBox uses presetIcons
     presetIcons(),
+    // SuggestionBox's own rules
+    presetSBox(),
   ],
 });
 ```
