@@ -4,6 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "packageManager": "pnpm@8.15.1",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/BeiyanYunyi/SuggestionBox"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly",
