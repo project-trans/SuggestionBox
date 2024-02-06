@@ -8,9 +8,12 @@ export default defineConfig({
   plugins: [vue(), UnoCSS()],
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, 'src/index.ts'),
+      entry: [
+        resolve(import.meta.dirname, 'src/index.ts'),
+        resolve(import.meta.dirname, 'src/preset.ts'),
+      ],
       name: 'SuggestionBox',
-      fileName: 'index',
+      fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'umd.cjs'}`,
     },
     rollupOptions: { external: ['vue'], output: { globals: { vue: 'Vue' } } },
   },

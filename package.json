@@ -44,6 +44,18 @@
       "import": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
     },
+    "./preset": {
+      "import": "./dist/preset.js",
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.umd.cjs",
+      "default": "./dist/preset.umd.cjs"
+    },
+    "./dist/preset": {
+      "import": "./dist/preset.js",
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.umd.cjs",
+      "default": "./dist/preset.umd.cjs"
+    },
     "./dist/style.css": "./dist/style.css"
   },
   "main": "dist/index.umd.cjs",

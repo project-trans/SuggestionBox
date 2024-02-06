@@ -1,10 +1,13 @@
 <template>
   <form class="flex flex-col border-1 border-dashed rounded-md" @submit.prevent="handleSubmit">
-    <textarea
-      name="suggestionText"
-      class="resize-none p-2 min-h-0 outline-none border-none"
-      :placeholder="placeholder"
-    />
+    <label class="inline-grid sb-auto-height items-stretch">
+      <textarea
+        oninput="this.parentNode.dataset.value=this.value"
+        name="suggestionText"
+        class="resize-none p-2 min-h-0 outline-none border-none"
+        :placeholder="placeholder"
+      />
+    </label>
     <hr class="border-t-1 border-b-none w-full border-dotted" />
     <div class="flex justify-around px-2 pb-2">
       <label class="cursor-pointer i-mdi:paperclip block text-2xl">
