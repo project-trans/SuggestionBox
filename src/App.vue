@@ -6,7 +6,7 @@
   >
     <label class="inline-grid sb-auto-height items-stretch">
       <textarea
-        v-model="form.textContent"
+        v-model="textContent"
         class="resize-none p-2 min-h-0 outline-none border-none rounded-t-md"
         bg="$vp-c-bg"
         :placeholder="placeholder || '输入内容'"
@@ -59,7 +59,7 @@
           class="flex items-center justify-center rounded-md w-full px-2 py-2 duration-250"
           transition="all ease-in-out"
           bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
-          text="zinc-600 dark:zinc-400 base"
+          text="zinc-700 dark:zinc-300 base"
           @click="handleSelectImage"
         >
           <div i-octicon:image-24 class="flex items-center justify-center mr-1" />
@@ -71,10 +71,12 @@
       <button
         type="submit"
         :aria-label="props.sendButtonText || '发送'"
+        :class="[!textContent || sentSuccess || sentFailed ? 'cursor-not-allowed' : '']"
         class="cursor-pointer block rounded-md w-full flex justify-center px-2 py-2 duration-250"
         transition="all ease-in-out"
-        text="zinc-600 dark:zinc-400 base"
-        bg="zinc-200 hover:zinc-300 active:zinc-400 disabled:zinc-100 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600 dark:disabled:zinc-900"
+        text="zinc-500 disabled:zinc-600 dark:zinc-300 dark:disabled:zinc-400 base"
+        bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
+        :disabled="!textContent || sentSuccess || sentFailed"
         @click="handleSubmit"
       >
         <div class="flex items-center justify-center">
@@ -119,7 +121,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps<{
   attachImageButtonText?: string;
@@ -134,17 +136,15 @@ const inputFile = ref<HTMLInputElement>();
 const sentSuccess = ref(false);
 const sentFailed = ref(false);
 const imageUrls = ref<string[]>([]);
-const form = reactive({
-  textContent: '',
-  images: [] as File[],
-});
+const textContent = ref('');
+const images = ref<File[]>([]);
 
 /**
  * Re-render imageUrls when form.images changes
  */
-watch(form, (f) => {
+watch(images, (i) => {
   imageUrls.value.forEach((url) => URL.revokeObjectURL(url));
-  imageUrls.value = f.images.map((file) => URL.createObjectURL(file));
+  imageUrls.value = i.map((file) => URL.createObjectURL(file));
 });
 
 /**
@@ -153,16 +153,16 @@ watch(form, (f) => {
  */
 const handleChange = (e: Event) => {
   const files = Array.from((e.target as HTMLInputElement).files ?? []);
-  if (form.images.length === 0) {
-    form.images = files;
+  if (images.value.length === 0) {
+    images.value = files;
 
     return;
   }
 
   files.forEach((file) => {
-    const found = form.images.find((f) => f.name === file.name);
+    const found = images.value.find((f) => f.name === file.name);
     if (!found) {
-      form.images.push(file);
+      images.value.push(file);
     }
   });
 };
@@ -183,7 +183,7 @@ function handleSelectImage() {
  */
 function handleRemoveImage(index: number) {
   imageUrls.value.splice(index, 1);
-  form.images.splice(index, 1);
+  images.value.splice(index, 1);
 }
 
 /**
@@ -193,12 +193,16 @@ async function handleSubmit() {
   sentSuccess.value = false;
   sentFailed.value = false;
 
+  if (!textContent.value) {
+    return;
+  }
+
   const formData = new FormData();
 
-  formData.append('textContent', form.textContent);
-  if (form.images) {
-    for (let i = 0; i < form.images.length; i += 1) {
-      formData.append('images', form.images[i]);
+  formData.append('textContent', textContent.value);
+  if (images.value) {
+    for (let i = 0; i < images.value.length; i += 1) {
+      formData.append('images', images.value[i]);
     }
   }
 
@@ -208,7 +212,7 @@ async function handleSubmit() {
       body: formData,
     });
 
-    if (form.textContent === 'failed') {
+    if (textContent.value === 'failed') {
       throw new Error('Not implemented');
     }
   } catch (err) {
@@ -219,5 +223,10 @@ async function handleSubmit() {
   }
 
   sentSuccess.value = true;
+
+  setTimeout(() => {
+    sentSuccess.value = false;
+    sentFailed.value = false;
+  }, 2000);
 }
 </script>
