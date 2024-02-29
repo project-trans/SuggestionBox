@@ -1,76 +1,223 @@
 <template>
-  <form class="flex flex-col border-1 border-dashed rounded-md" @submit.prevent="handleSubmit">
+  <form
+    class="flex flex-col rounded-lg overflow-hidden"
+    border="2 solid zinc-200 dark:zinc-800"
+    @submit.prevent="() => {}"
+  >
     <label class="inline-grid sb-auto-height items-stretch">
       <textarea
-        oninput="this.parentNode.dataset.value=this.value"
-        name="suggestionText"
-        class="resize-none p-2 min-h-0 outline-none border-none"
-        :placeholder="placeholder"
+        v-model="form.textContent"
+        class="resize-none p-2 min-h-0 outline-none border-none rounded-t-md"
+        bg="$vp-c-bg"
+        :placeholder="placeholder || '输入内容'"
       />
     </label>
-    <hr class="border-t-1 border-b-none w-full border-dotted" />
-    <div class="flex justify-around px-2 pb-2">
-      <label class="cursor-pointer i-octicon:image-24 block text-2xl">
+    <div class="m-2">
+      <details v-if="imageUrls.length !== 0">
+        <summary class="appearance-none m-0! cursor-pointer">
+          <span> {{ imageUrls.length }} 张图片 </span>
+        </summary>
+        <div class="flex overflow-x-scroll space-x-4">
+          <template v-for="(url, index) in imageUrls" :key="url">
+            <div class="relative">
+              <button
+                class="absolute right-1 top-1 w-8 h-8 rounded-md inline-flex justify-center items-center duration-250"
+                transition="all ease-in-out"
+                bg="zinc-800 dark:zinc-100 opacity-50 dark:opacity-60 hover:opacity-80 active:opacity-50"
+                text="zinc-100 dark:zinc-800"
+                @click="handleRemoveImage(index)"
+              >
+                <div i-octicon:trash-24 class="flex items-center justify-center w-4 h-4" />
+              </button>
+              <img
+                :src="url"
+                class="overflow-hidden object-cover rounded-md block aspect-video min-w-60 w-full max-h-40 min-h-40 h-full"
+                alt="图片"
+              />
+            </div>
+          </template>
+        </div>
+      </details>
+    </div>
+    <div
+      class="flex justify-around p-2 rounded-b-md space-x-2 <sm:flex-col <sm:space-x-0 <sm:space-y-2"
+      bg="zinc-50 dark:zinc-900"
+    >
+      <label
+        :aria-label="props.attachImageButtonText || '附加图片'"
+        class="w-full flex justify-center"
+      >
         <input
+          ref="inputFile"
           type="file"
-          name="suggestionImage"
           accept="image/*"
           multiple
           hidden
           @change="handleChange"
         />
+        <button
+          class="flex items-center justify-center rounded-md w-full px-2 py-2 duration-250"
+          transition="all ease-in-out"
+          bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
+          text="zinc-600 dark:zinc-400 base"
+          @click="handleSelectImage"
+        >
+          <div i-octicon:image-24 class="flex items-center justify-center mr-1" />
+          <span text="sm">
+            {{ props.attachImageButtonText || '附加图片' }}
+          </span>
+        </button>
       </label>
       <button
         type="submit"
-        :aria-label="sendText || '发送'"
-        class="i-octicon:paper-airplane-24 block text-2xl cursor-pointer"
-      />
+        :aria-label="props.sendButtonText || '发送'"
+        class="cursor-pointer block rounded-md w-full flex justify-center px-2 py-2 duration-250"
+        transition="all ease-in-out"
+        text="zinc-600 dark:zinc-400 base"
+        bg="zinc-200 hover:zinc-300 active:zinc-400 disabled:zinc-100 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600 dark:disabled:zinc-900"
+        @click="handleSubmit"
+      >
+        <div class="flex items-center justify-center">
+          <Transition
+            mode="out-in"
+            enter-active-class="transition-all duration-200 ease-out"
+            leave-active-class="transition-all duration-200 ease-out"
+            enter-from-class="transform translate-y-10px opacity-0"
+            leave-to-class="transform translate-y--10px opacity-0"
+            enter-to-class="opacity-100"
+            leave-from-class="opacity-100"
+          >
+            <span v-if="sentSuccess" flex items-center space-x-1>
+              <div
+                i-octicon:check-circle-fill-24
+                class="flex items-center justify-center mr-1 text-green-600"
+              />
+              <span text="sm">
+                {{ props.sentSuccessButtonText || '发送成功，谢谢反馈' }}
+              </span>
+            </span>
+            <span v-else-if="sentFailed" flex items-center space-x-1>
+              <div
+                i-octicon:alert-fill-24
+                class="flex items-center justify-center mr-1 text-red-600"
+              />
+              <span text="sm">
+                {{ props.sentFailedButtonText || '发送失败，请稍后再试' }}
+              </span>
+            </span>
+            <span v-else flex items-center space-x-1>
+              <div i-octicon:paper-airplane-24 class="flex items-center justify-center mr-1" />
+              <span text="sm">
+                {{ props.sendButtonText || '发送' }}
+              </span>
+            </span>
+          </Transition>
+        </div>
+      </button>
     </div>
-    <details v-if="imageURLs.length !== 0">
-      <img
-        v-for="url in imageURLs"
-        :key="url"
-        :src="url"
-        height="128"
-        width="128"
-        class="object-contain block"
-      />
-    </details>
   </form>
 </template>
 
 <script setup lang="ts">
-// eslint-disable-next-line import/no-unresolved
-import 'uno.css';
-import { ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 
-const props = defineProps<{ sendText: string; targetURL: string; placeholder: string }>();
+const props = defineProps<{
+  attachImageButtonText?: string;
+  sendButtonText?: string;
+  sentSuccessButtonText?: string;
+  sentFailedButtonText?: string;
+  targetUrl?: string;
+  placeholder?: string;
+}>();
 
-const files = ref<FileList | null>(null);
-
-const imageURLs = ref<string[]>([]);
-
-watch(files, () => {
-  imageURLs.value = [];
-  if (!files.value) return;
-  for (let i = 0; i < files.value.length; i += 1) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imageURLs.value.push(e.target!.result as string);
-    };
-    reader.readAsDataURL(files.value[i]);
-  }
+const inputFile = ref<HTMLInputElement>();
+const sentSuccess = ref(false);
+const sentFailed = ref(false);
+const imageUrls = ref<string[]>([]);
+const form = reactive({
+  textContent: '',
+  images: [] as File[],
 });
 
-const handleChange = (e: Event) => {
-  files.value = (e.target as HTMLInputElement).files;
-};
+/**
+ * Re-render imageUrls when form.images changes
+ */
+watch(form, (f) => {
+  imageUrls.value.forEach((url) => URL.revokeObjectURL(url));
+  imageUrls.value = f.images.map((file) => URL.createObjectURL(file));
+});
 
-const handleSubmit = (e: Event) => {
-  const form = new FormData(e.target as HTMLFormElement);
-  fetch(props.targetURL, {
-    method: 'POST',
-    body: form,
+/**
+ * Handle file input change
+ * @param e - input change event
+ */
+const handleChange = (e: Event) => {
+  const files = Array.from((e.target as HTMLInputElement).files ?? []);
+  if (form.images.length === 0) {
+    form.images = files;
+
+    return;
+  }
+
+  files.forEach((file) => {
+    const found = form.images.find((f) => f.name === file.name);
+    if (!found) {
+      form.images.push(file);
+    }
   });
 };
+
+/**
+ * Open file dialog
+ */
+function handleSelectImage() {
+  if (!inputFile.value) return;
+
+  inputFile.value.value = '' as any;
+  inputFile?.value.click();
+}
+
+/**
+ * Remove image from form and imageUrls
+ * @param index - index of image to remove
+ */
+function handleRemoveImage(index: number) {
+  imageUrls.value.splice(index, 1);
+  form.images.splice(index, 1);
+}
+
+/**
+ * Submit form data
+ */
+async function handleSubmit() {
+  sentSuccess.value = false;
+  sentFailed.value = false;
+
+  const formData = new FormData();
+
+  formData.append('textContent', form.textContent);
+  if (form.images) {
+    for (let i = 0; i < form.images.length; i += 1) {
+      formData.append('images', form.images[i]);
+    }
+  }
+
+  try {
+    await fetch(props.targetUrl || '', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (form.textContent === 'failed') {
+      throw new Error('Not implemented');
+    }
+  } catch (err) {
+    sentFailed.value = true;
+    console.error(err);
+
+    return;
+  }
+
+  sentSuccess.value = true;
+}
 </script>
