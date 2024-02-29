@@ -150,13 +150,16 @@ const textContent = ref('');
 const contactContent = ref('');
 const images = ref<File[]>([]);
 
-/**
- * Re-render imageUrls when form.images changes
- */
-watch(images, (i) => {
-  imageUrls.value.forEach((url) => URL.revokeObjectURL(url));
-  imageUrls.value = i.map((file) => URL.createObjectURL(file));
-});
+watch(
+  images,
+  (newImages) => {
+    imageUrls.value.forEach((url) => URL.revokeObjectURL(url));
+    imageUrls.value = newImages.map((file) => URL.createObjectURL(file));
+  },
+  {
+    deep: true,
+  },
+);
 
 /**
  * Handle file input change
@@ -164,6 +167,7 @@ watch(images, (i) => {
  */
 const handleChange = (e: Event) => {
   const files = Array.from((e.target as HTMLInputElement).files ?? []);
+
   if (images.value.length === 0) {
     images.value = files;
 
