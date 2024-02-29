@@ -4,12 +4,21 @@
     border="2 solid zinc-200 dark:zinc-800"
     @submit.prevent="() => {}"
   >
+    <label>
+      <input
+        v-model="contactContent"
+        class="resize-none p-2 min-h-0 outline-none border-none rounded-t-md w-full"
+        bg="zinc-100 dark:zinc-900"
+        text="sm"
+        :placeholder="contactContentPlaceholder || '留下您的联系方式，方便我们直接与您联系'"
+      />
+    </label>
     <label class="inline-grid sb-auto-height items-stretch">
       <textarea
         v-model="textContent"
         class="resize-none p-2 min-h-0 outline-none border-none rounded-t-md"
         bg="$vp-c-bg"
-        :placeholder="placeholder || '输入内容'"
+        :placeholder="textContentPlaceholder || '输入内容'"
       />
     </label>
     <div class="m-2">
@@ -129,7 +138,8 @@ const props = defineProps<{
   sentSuccessButtonText?: string;
   sentFailedButtonText?: string;
   targetUrl?: string;
-  placeholder?: string;
+  textContentPlaceholder?: string;
+  contactContentPlaceholder?: string;
 }>();
 
 const inputFile = ref<HTMLInputElement>();
@@ -137,6 +147,7 @@ const sentSuccess = ref(false);
 const sentFailed = ref(false);
 const imageUrls = ref<string[]>([]);
 const textContent = ref('');
+const contactContent = ref('');
 const images = ref<File[]>([]);
 
 /**
