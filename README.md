@@ -14,7 +14,7 @@ In your Vue component:
 
 ```vue
 <template>
-  <SuggestionBox target-url="https://example.com" send-text="发送" placeholder="114514" />
+  <SuggestionBox target-url="https://example.com" send-text="发送" text-content-placeholder="114514" contact-content-placeholder="1919810" />
 </template>
 
 <script>
