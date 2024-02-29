@@ -23,8 +23,8 @@
               <button
                 class="absolute right-1 top-1 w-8 h-8 rounded-md inline-flex justify-center items-center duration-250"
                 transition="all ease-in-out"
-                bg="zinc-800 dark:zinc-100 opacity-50 dark:opacity-60 hover:opacity-80 active:opacity-50"
-                text="zinc-100 dark:zinc-800"
+                bg="zinc-800 opacity-60 hover:opacity-80 active:opacity-50"
+                text="zinc-100"
                 @click="handleRemoveImage(index)"
               >
                 <div i-octicon:trash-24 class="flex items-center justify-center w-4 h-4" />
