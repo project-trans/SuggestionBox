@@ -10,7 +10,7 @@
         class="resize-none p-2 min-h-0 outline-none border-none rounded-t-md w-full"
         bg="zinc-100 dark:zinc-900"
         text="sm"
-        :placeholder="contactContentPlaceholder || '留下您的联系方式，方便我们直接与您联系'"
+        :placeholder="contactContentPlaceholder || '（可选）留下您的联系方式，方便我们直接与您联系'"
       />
     </label>
     <label class="inline-grid sb-auto-height items-stretch">

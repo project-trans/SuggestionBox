@@ -1,10 +1,10 @@
 {
   "extends": [
-    "airbnb-base",
-    "airbnb-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier",
     "plugin:vue/vue3-recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
   ],
   "plugins": ["@typescript-eslint", "prettier", "vue"],
   "env": {
@@ -15,7 +15,7 @@
     // mocha: true,
     // jest: true,
     // jquery: true
-    "vue/setup-compiler-macros": true
+    "vue/setup-compiler-macros": true,
   },
   "globals": {
     // 你的全局变量（设置为 false 表示它不允许被重新赋值）
@@ -30,11 +30,11 @@
     "vue/html-self-closing": 0,
     "vue/html-indent": 0,
     "vue/html-closing-bracket-newline": 0,
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": ["error", { "allow": ["warn", "error"] }],
   },
   "parserOptions": {
     "project": "./tsconfig.json",
     "extraFileExtensions": [".vue"],
-    "parser": "@typescript-eslint/parser"
-  }
+    "parser": "@typescript-eslint/parser",
+  },
 }
