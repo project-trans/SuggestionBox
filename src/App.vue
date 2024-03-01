@@ -10,7 +10,7 @@
         class="resize-none p-2 min-h-0 outline-none border-none rounded-t-md w-full"
         bg="zinc-100 dark:zinc-900"
         text="sm"
-        :placeholder="contactContentPlaceholder || '（可选）留下您的联系方式，方便我们直接与您联系'"
+        :placeholder="contactContentPlaceholder"
       />
     </label>
     <label class="inline-grid sb-auto-height items-stretch">
@@ -18,7 +18,7 @@
         v-model="textContent"
         class="resize-none p-2 min-h-0 outline-none border-none rounded-t-md"
         bg="$vp-c-bg"
-        :placeholder="textContentPlaceholder || '输入内容'"
+        :placeholder="textContentPlaceholder"
       />
     </label>
     <div class="m-2">
@@ -52,10 +52,7 @@
       class="flex justify-around p-2 rounded-b-md space-x-2 <sm:flex-col <sm:space-x-0 <sm:space-y-2"
       bg="zinc-50 dark:zinc-900"
     >
-      <label
-        :aria-label="props.attachImageButtonText || '附加图片'"
-        class="w-full flex justify-center"
-      >
+      <label :aria-label="props.attachImageButtonText" class="w-full flex justify-center">
         <input
           ref="inputFile"
           type="file"
@@ -73,18 +70,23 @@
         >
           <div i-octicon:image-24 class="flex items-center justify-center mr-1" />
           <span text="sm">
-            {{ props.attachImageButtonText || '附加图片' }}
+            {{ props.attachImageButtonText }}
           </span>
         </button>
       </label>
       <button
         type="submit"
-        :aria-label="props.sendButtonText || '发送'"
-        :class="[!textContent || sentSuccess || sentFailed ? 'cursor-not-allowed' : '']"
+        :aria-label="props.sendButtonText"
+        :class="[
+          !textContent || sentSuccess || sentFailed ? 'cursor-not-allowed' : '',
+          sentSuccess || sentFailed
+            ? 'text-zinc-700 disabled:text-zinc-700 dark:text-zinc-300 dark:disabled:text-zinc-300'
+            : 'text-zinc-700 disabled:text-zinc-400 dark:text-zinc-300 dark:disabled:text-zinc-600',
+        ]"
         class="cursor-pointer block rounded-md w-full flex justify-center px-2 py-2 duration-250"
         transition="all ease-in-out"
-        text="zinc-500 disabled:zinc-600 dark:zinc-300 dark:disabled:zinc-400 base"
         bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
+        text="base"
         :disabled="!textContent || sentSuccess || sentFailed"
         @click="handleSubmit"
       >
@@ -104,7 +106,7 @@
                 class="flex items-center justify-center mr-1 text-green-600"
               />
               <span text="sm">
-                {{ props.sentSuccessButtonText || '发送成功，谢谢反馈' }}
+                {{ props.sentSuccessButtonText }}
               </span>
             </span>
             <span v-else-if="sentFailed" flex items-center space-x-1>
@@ -113,13 +115,13 @@
                 class="flex items-center justify-center mr-1 text-red-600"
               />
               <span text="sm">
-                {{ props.sentFailedButtonText || '发送失败，请稍后再试' }}
+                {{ props.sentFailedButtonText }}
               </span>
             </span>
             <span v-else flex items-center space-x-1>
               <div i-octicon:paper-airplane-24 class="flex items-center justify-center mr-1" />
               <span text="sm">
-                {{ props.sendButtonText || '发送' }}
+                {{ props.sendButtonText }}
               </span>
             </span>
           </Transition>
@@ -132,15 +134,26 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
-const props = defineProps<{
-  attachImageButtonText?: string;
-  sendButtonText?: string;
-  sentSuccessButtonText?: string;
-  sentFailedButtonText?: string;
-  targetUrl?: string;
-  textContentPlaceholder?: string;
-  contactContentPlaceholder?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    attachImageButtonText?: string;
+    sendButtonText?: string;
+    sentSuccessButtonText?: string;
+    sentFailedButtonText?: string;
+    targetUrl?: string;
+    textContentPlaceholder?: string;
+    contactContentPlaceholder?: string;
+  }>(),
+  {
+    attachImageButtonText: '附加图片',
+    sendButtonText: '发送',
+    sentSuccessButtonText: '发送成功，谢谢反馈',
+    sentFailedButtonText: '发送失败，请稍后再试',
+    textContentPlaceholder: '输入内容',
+    contactContentPlaceholder: '（可选）留下您的联系方式，方便我们直接与您联系',
+    targetUrl: '',
+  },
+);
 
 const inputFile = ref<HTMLInputElement>();
 const sentSuccess = ref(false);
@@ -188,7 +201,7 @@ const handleChange = (e: Event) => {
 function handleSelectImage() {
   if (!inputFile.value) return;
 
-  inputFile.value.value = '' as any;
+  inputFile.value.value = '';
   inputFile?.value.click();
 }
 
@@ -226,13 +239,14 @@ async function handleSubmit() {
       method: 'POST',
       body: formData,
     });
-
-    if (textContent.value === 'failed') {
-      throw new Error('Not implemented');
-    }
   } catch (err) {
     sentFailed.value = true;
     console.error(err);
+
+    setTimeout(() => {
+      sentSuccess.value = false;
+      sentFailed.value = false;
+    }, 2000);
 
     return;
   }
