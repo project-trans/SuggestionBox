@@ -1,7 +1,7 @@
 {
   "name": "pjts-suggestion-box",
   "description": "Suggestion box for Project Trans",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "packageManager": "pnpm@8.15.4",
   "license": "MIT",
