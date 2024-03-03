@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.wrangler
+.dev.vars
+.env
+.env*
+!.env.example

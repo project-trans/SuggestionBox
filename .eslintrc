@@ -33,7 +33,7 @@
     "no-console": ["error", { "allow": ["warn", "error"] }],
   },
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": ["./tsconfig.json", "./server/tsconfig.json"],
     "extraFileExtensions": [".vue"],
     "parser": "@typescript-eslint/parser",
   },
