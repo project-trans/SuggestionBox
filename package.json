@@ -1,12 +1,17 @@
 {
-  "name": "pjts-suggestion-box",
+  "name": "@project-trans/suggestion-box",
   "type": "module",
   "version": "0.0.6",
   "packageManager": "pnpm@8.15.4",
   "description": "Suggestion box for Project Trans",
+  "author": {
+    "name": "Project Trans Team Members",
+    "email": "hi@project-trans.org",
+    "url": "https://github.com/project-trans"
+  },
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/BeiyanYunyi/SuggestionBox"
+    "url": "https://github.com/project-trans/SuggestionBox"
   },
   "exports": {
     ".": {
