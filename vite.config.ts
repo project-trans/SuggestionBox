@@ -1,7 +1,7 @@
-import vue from '@vitejs/plugin-vue';
-import { resolve } from 'node:path';
-import UnoCSS from 'unocss/vite';
-import { defineConfig } from 'vite';
+import { resolve } from 'node:path'
+import vue from '@vitejs/plugin-vue'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,4 +17,4 @@ export default defineConfig({
     },
     rollupOptions: { external: ['vue'], output: { globals: { vue: 'Vue' } } },
   },
-});
+})
