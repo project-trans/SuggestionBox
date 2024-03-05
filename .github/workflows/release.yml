@@ -30,12 +30,6 @@ jobs:
           run_install: false
           version: 8
 
-      - name: Install Dependencies
-        run: pnpm i --prefer-offline --frozen-lockfile
-
-      - name: PNPM build
-        run: pnpm build
-
       - name: Obtain pnpm store directory
         shell: bash
         run: |
@@ -48,6 +42,12 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        run: pnpm i --prefer-offline --frozen-lockfile
+
+      - name: PNPM build
+        run: pnpm build
 
       - name: Publish to NPM
         run: pnpm publish --access public --no-git-checks
