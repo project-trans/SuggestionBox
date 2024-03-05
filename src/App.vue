@@ -5,6 +5,7 @@ const props = withDefaults(
   defineProps<{
     attachImageButtonText?: string
     sendButtonText?: string
+    sendingButtonText?: string
     sentSuccessButtonText?: string
     sentFailedButtonText?: string
     targetUrl?: string
@@ -14,6 +15,7 @@ const props = withDefaults(
   {
     attachImageButtonText: '附加图片',
     sendButtonText: '发送',
+    sendingButtonText: '发送中...',
     sentSuccessButtonText: '发送成功，谢谢反馈',
     sentFailedButtonText: '发送失败，请稍后再试',
     textContentPlaceholder: '输入内容',
@@ -23,12 +25,14 @@ const props = withDefaults(
 )
 
 const inputFile = ref<HTMLInputElement>()
-const sentSuccess = ref(false)
-const sentFailed = ref(false)
-const imageUrls = ref<string[]>([])
 const textContent = ref('')
 const contactContent = ref('')
 const images = ref<File[]>([])
+const imageUrls = ref<string[]>([])
+
+const sending = ref(false)
+const sentSuccess = ref(false)
+const sentFailed = ref(false)
 
 watch(
   images,
@@ -100,12 +104,21 @@ async function handleSubmit() {
   }
 
   try {
+    sending.value = true
+
     await fetch(props.targetUrl || '', {
       method: 'POST',
       body: formData,
+      // otherwise the fetch() call will failed even
+      // when the request has been sent successfully
+      // due to the CORS policy
+      mode: 'no-cors',
     })
+
+    sending.value = false
   }
   catch (err) {
+    sending.value = false
     sentFailed.value = true
     console.error(err)
 
@@ -141,7 +154,7 @@ async function handleSubmit() {
         :placeholder="contactContentPlaceholder"
       >
     </label>
-    <label class="sb-auto-height inline-grid items-stretch">
+    <label class="inline-grid items-stretch sb-auto-height">
       <textarea
         v-model="textContent"
         class="min-h-0 resize-none rounded-t-md border-none p-2 outline-none"
@@ -152,7 +165,7 @@ async function handleSubmit() {
     <div class="m-2">
       <details v-if="imageUrls.length !== 0">
         <summary class="cursor-pointer appearance-none m-0!">
-          <span> {{ imageUrls.length }} 张图片 </span>
+          <span> 当前选中了 {{ imageUrls.length }} 张图片 </span>
         </summary>
         <div class="flex overflow-x-scroll space-x-4">
           <template v-for="(url, index) in imageUrls" :key="url">
@@ -206,8 +219,8 @@ async function handleSubmit() {
         type="submit"
         :aria-label="props.sendButtonText"
         :class="[
-          !textContent || sentSuccess || sentFailed ? 'cursor-not-allowed' : '',
-          sentSuccess || sentFailed
+          !textContent || sending || sentSuccess || sentFailed ? 'cursor-not-allowed' : '',
+          sending || sentSuccess || sentFailed
             ? 'text-zinc-700 disabled:text-zinc-700 dark:text-zinc-300 dark:disabled:text-zinc-300'
             : 'text-zinc-700 disabled:text-zinc-400 dark:text-zinc-300 dark:disabled:text-zinc-600',
         ]"
@@ -215,7 +228,7 @@ async function handleSubmit() {
         transition="all ease-in-out"
         bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
         text="base"
-        :disabled="!textContent || sentSuccess || sentFailed"
+        :disabled="!textContent || sending || sentSuccess || sentFailed"
         @click="handleSubmit"
       >
         <div class="flex items-center justify-center">
@@ -247,10 +260,18 @@ async function handleSubmit() {
               </span>
             </span>
             <span v-else flex items-center space-x-1>
-              <div i-octicon:paper-airplane-24 class="mr-1 flex items-center justify-center" />
-              <span text="sm">
-                {{ props.sendButtonText }}
-              </span>
+              <template v-if="!sending">
+                <div i-octicon:paper-airplane-24 class="mr-1 flex items-center justify-center" />
+                <span text="sm">
+                  {{ props.sendButtonText }}
+                </span>
+              </template>
+              <template v-else>
+                <div i-svg-spinners:180-ring-with-bg class="mr-1 flex items-center justify-center" />
+                <span text="sm">
+                  {{ props.sendingButtonText }}
+                </span>
+              </template>
             </span>
           </Transition>
         </div>

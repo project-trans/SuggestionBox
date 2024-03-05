@@ -30,6 +30,9 @@ importers:
       '@iconify-json/octicon':
         specifier: ^1.1.52
         version: 1.1.52
+      '@iconify-json/svg-spinners':
+        specifier: ^1.1.2
+        version: 1.1.2
       '@types/node':
         specifier: ^20.11.24
         version: 20.11.24
@@ -1085,6 +1088,12 @@ packages:
 
   /@iconify-json/octicon@1.1.52:
     resolution: {integrity: sha512-0bLc9t54p55nVlQ8SKF7BYOBTy/Q5SfvqYcOD09APDksRTikO45MwKTfG3fzkbaIwpobuVQM1sXiSCsyWJX9Tg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/svg-spinners@1.1.2:
+    resolution: {integrity: sha512-Aab6SqkORaTJ1W+ooufn6C8BsBitrn3uk8iRQLPA6pjhyvQAhkKCGMctyXIL5ZjrycnoFVsZ4mx7KnwEMra8qg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true

@@ -5,7 +5,7 @@ import 'virtual:uno.css'
 
 import App from './App.vue'
 
-createApp(App, { sendText: '发送', targetUrl: 'http://localhost:8787/api/v1/suggestion' }).mount(
+createApp(App, { sendText: '发送', targetUrl: '/api/v1/suggestion' }).mount(
   '#app',
 )
 
