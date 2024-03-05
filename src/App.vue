@@ -190,7 +190,7 @@ async function handleSubmit() {
       </details>
     </div>
     <div
-      class="flex justify-around rounded-b-md p-2 <sm:flex-col space-x-2 <sm:space-x-0 <sm:space-y-2"
+      class="flex justify-around gap-2 rounded-b-md p-2 !<sm:flex-col"
       bg="zinc-50 dark:zinc-900"
     >
       <label :aria-label="props.attachImageButtonText" class="w-full flex justify-center">
