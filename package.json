@@ -1,7 +1,7 @@
 {
   "name": "@project-trans/suggestion-box",
   "type": "module",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "packageManager": "pnpm@8.15.4",
   "description": "Suggestion box for Project Trans",
   "author": {

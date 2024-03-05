@@ -98,6 +98,8 @@ async function handleSubmit() {
   const formData = new FormData()
 
   formData.append('textContent', textContent.value)
+  if (contactContent.value)
+    formData.append('contactContent', contactContent.value)
   if (images.value) {
     for (let i = 0; i < images.value.length; i += 1)
       formData.append('images', images.value[i])
