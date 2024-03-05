@@ -1,5 +1,5 @@
-import 'virtual:uno.css';
+import 'virtual:uno.css'
 
-import App from './App.vue';
+import App from './App.vue'
 
-export default App;
+export default App

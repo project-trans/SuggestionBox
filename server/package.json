@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "lint": "eslint --cache .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "grammy": "^1.21.1",
