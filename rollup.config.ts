@@ -24,7 +24,7 @@ const plugins = [
 
 export default defineConfig([
   {
-    input: './src/index.ts',
+    input: './src/aio.ts',
     plugins,
     output: [
       {
