@@ -1,8 +1,8 @@
 {
   "name": "@project-trans/suggestion-box",
   "type": "module",
-  "version": "0.0.9",
-  "packageManager": "pnpm@8.15.4",
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b",
   "description": "Suggestion box for Project Trans",
   "author": {
     "name": "Project Trans Team Members",
@@ -25,6 +25,18 @@
       "require": "./dist/preset.umd.cjs",
       "default": "./dist/preset.umd.cjs"
     },
+    "./aio": {
+      "types": "./dist/aio.d.ts",
+      "import": "./dist/aio.js",
+      "require": "./dist/aio.umd.cjs",
+      "default": "./dist/aio.umd.cjs"
+    },
+    "./dist/aio": {
+      "types": "./dist/aio.d.ts",
+      "import": "./dist/aio.js",
+      "require": "./dist/aio.umd.cjs",
+      "default": "./dist/aio.umd.cjs"
+    },
     "./dist/preset": {
       "types": "./dist/preset.d.ts",
       "import": "./dist/preset.js",
@@ -42,7 +54,10 @@
   "scripts": {
     "dev": "vite",
     "dev:server": "pnpm -F server run dev",
-    "build": "vite build && vue-tsc --declaration --emitDeclarationOnly",
+    "build": "pnpm build:script && pnpm build:style && pnpm build:types",
+    "build:style": "tsx ./script/buildStyle.ts",
+    "build:script": "rollup -c rollup.config.ts --configPlugin esbuild",
+    "build:types": "vue-tsc",
     "preview": "vite preview",
     "lint": "eslint --cache . && pnpm -F server run lint",
     "typecheck": "vue-tsc --noEmit && pnpm -F server run typecheck",
@@ -54,32 +69,40 @@
     "vue": "3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.8.0",
-    "@iconify-json/octicon": "^1.1.52",
-    "@iconify-json/svg-spinners": "^1.1.2",
-    "@types/node": "^20.11.24",
-    "@unocss/eslint-plugin": "^0.58.5",
-    "@unocss/reset": "^0.58.5",
-    "@vitejs/plugin-vue": "^5.0.4",
-    "eslint": "^8.57.0",
-    "rimraf": "^5.0.5",
-    "typescript": "^5.3.3",
-    "unocss": "^0.58.5",
-    "vite": "^5.1.5",
-    "vue-tsc": "^1.8.27"
+    "@antfu/eslint-config": "^3.7.3",
+    "@iconify-json/octicon": "^1.2.0",
+    "@iconify-json/svg-spinners": "^1.2.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-replace": "^6.0.1",
+    "@types/node": "^22.7.4",
+    "@unocss/eslint-plugin": "^0.63.1",
+    "@unocss/reset": "^0.63.1",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "eslint": "^9.11.1",
+    "lightningcss": "^1.27.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.22.5",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "unbuild": "3.0.0-rc.8",
+    "unocss": "^0.63.1",
+    "vite": "^5.4.8",
+    "vue-tsc": "^2.1.6"
   },
   "pnpm": {
     "overrides": {
-      "array-includes": "npm:@nolyfill/array-includes@latest",
-      "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@latest",
-      "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@latest",
-      "array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@latest",
-      "hasown": "npm:@nolyfill/hasown@latest",
-      "object.assign": "npm:@nolyfill/object.assign@latest",
-      "object.entries": "npm:@nolyfill/object.entries@latest",
-      "object.fromentries": "npm:@nolyfill/object.fromentries@latest",
-      "object.groupby": "npm:@nolyfill/object.groupby@latest",
-      "object.values": "npm:@nolyfill/object.values@latest"
+      "array-includes": "npm:@nolyfill/array-includes@^1",
+      "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@^1",
+      "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@^1",
+      "array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@^1",
+      "hasown": "npm:@nolyfill/hasown@^1",
+      "is-core-module": "npm:@nolyfill/is-core-module@^1",
+      "object.assign": "npm:@nolyfill/object.assign@^1",
+      "object.entries": "npm:@nolyfill/object.entries@^1",
+      "object.fromentries": "npm:@nolyfill/object.fromentries@^1",
+      "object.groupby": "npm:@nolyfill/object.groupby@^1",
+      "object.values": "npm:@nolyfill/object.values@^1"
     }
   }
 }
