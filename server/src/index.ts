@@ -1,8 +1,8 @@
-import { Hono } from 'hono'
-import { env } from 'hono/adapter'
-import { Bot, InputFile, InputMediaBuilder } from 'grammy'
 import type { InputMediaPhoto } from 'grammy/types'
 import type { ENV } from './types'
+import { Bot, InputFile, InputMediaBuilder } from 'grammy'
+import { Hono } from 'hono'
+import { env } from 'hono/adapter'
 
 const IP_HEADER = 'CF-Connecting-IP'
 
@@ -61,7 +61,7 @@ app.post('/api/v1/suggestion', async (c) => {
   msgs.push(`${replaceHtmlTag(textContent)}\n`)
   contactContent
   && msgs.push(
-      `<b>联系方式</b>\n<blockquote><code>${replaceHtmlTag(contactContent)}</code></blockquote>`,
+    `<b>联系方式</b>\n<blockquote><code>${replaceHtmlTag(contactContent)}</code></blockquote>`,
   )
   metaReferrer
   && msgs.push(`<b>Referrer</b>\n<blockquote>${replaceHtmlTag(metaReferrer)}</blockquote>`)
