@@ -150,7 +150,7 @@ async function handleSubmit() {
     <label>
       <input
         v-model="contactContent"
-        class="min-h-0 w-full resize-none rounded-t-md border-none p-2 outline-none"
+        class="min-h-0 w-full resize-none rounded-t-md border-none p-2 text-inherit outline-none"
         bg="zinc-100 dark:zinc-900"
         text="sm"
         :placeholder="contactContentPlaceholder"
@@ -159,7 +159,7 @@ async function handleSubmit() {
     <label class="inline-grid items-stretch sb-auto-height">
       <textarea
         v-model="textContent"
-        class="min-h-0 resize-none rounded-t-md border-none p-2 outline-none"
+        class="min-h-0 resize-none rounded-t-md border-none p-2 text-inherit outline-none"
         bg="$vp-c-bg"
         :placeholder="textContentPlaceholder"
       />
@@ -173,7 +173,7 @@ async function handleSubmit() {
           <template v-for="(url, index) in imageUrls" :key="url">
             <div class="relative">
               <button
-                class="absolute right-1 top-1 h-8 w-8 inline-flex items-center justify-center rounded-md duration-250"
+                class="absolute right-1 top-1 h-8 w-8 inline-flex items-center justify-center rounded-md border-none duration-250"
                 transition="all ease-in-out"
                 bg="zinc-800 opacity-60 hover:opacity-80 active:opacity-50"
                 text="zinc-100"
@@ -205,7 +205,7 @@ async function handleSubmit() {
           @change="handleChange"
         >
         <button
-          class="w-full flex items-center justify-center rounded-md px-2 py-2 duration-250"
+          class="w-full flex items-center justify-center rounded-md border-none px-2 py-2 duration-250"
           transition="all ease-in-out"
           bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
           text="zinc-700 dark:zinc-300 base"
@@ -226,7 +226,7 @@ async function handleSubmit() {
             ? 'text-zinc-700 disabled:text-zinc-700 dark:text-zinc-300 dark:disabled:text-zinc-300'
             : 'text-zinc-700 disabled:text-zinc-400 dark:text-zinc-300 dark:disabled:text-zinc-600',
         ]"
-        class="block w-full flex cursor-pointer justify-center rounded-md px-2 py-2 duration-250"
+        class="block w-full flex cursor-pointer justify-center rounded-md border-none px-2 py-2 duration-250"
         transition="all ease-in-out"
         bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
         text="base"
@@ -281,3 +281,9 @@ async function handleSubmit() {
     </div>
   </form>
 </template>
+
+<style>
+/*
+@unocss-placeholder
+*/
+</style>
