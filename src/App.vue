@@ -98,6 +98,7 @@ async function handleSubmit() {
   const formData = new FormData()
 
   formData.append('textContent', textContent.value)
+  formData.append('referrer', window.location.href)
   if (contactContent.value)
     formData.append('contactContent', contactContent.value)
   if (images.value) {
@@ -115,6 +116,7 @@ async function handleSubmit() {
       // when the request has been sent successfully
       // due to the CORS policy
       mode: 'no-cors',
+      referrerPolicy: 'unsafe-url',
     })
 
     sending.value = false

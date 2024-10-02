@@ -1,7 +1,18 @@
+import process from 'node:process'
+import vue from '@vitejs/plugin-vue'
+import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  plugins: process.env.NODE_ENV === 'development'
+    ? [
+        vue({ features: { customElement: true } }),
+        UnoCSS({
+          mode: 'shadow-dom',
+        }),
+      ]
+    : [],
   server: {
     proxy: {
       '/api': {

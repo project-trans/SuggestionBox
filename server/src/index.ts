@@ -39,7 +39,7 @@ app.post('/api/v1/suggestion', async (c) => {
     const form = await c.req.formData()
 
     metaIP = c.req.header(IP_HEADER) || ''
-    metaReferrer = c.req.header('Referer') || ''
+    metaReferrer = form.get('referrer') || c.req.header('Referer') || ''
     metaUA = c.req.header('User-Agent') || ''
     textContent = form.get('textContent') || ''
     contactContent = form.get('contactContent') || ''
