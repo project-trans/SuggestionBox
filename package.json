@@ -1,8 +1,8 @@
 {
   "name": "@project-trans/suggestion-box",
   "type": "module",
-  "version": "0.3.1",
-  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b",
+  "version": "0.4.0",
+  "packageManager": "pnpm@9.12.0+sha512.4abf725084d7bcbafbd728bfc7bee61f2f791f977fd87542b3579dcb23504d170d46337945e4c66485cd12d588a0c0e570ed9c477e7ccdd8507cf05f3f92eaca",
   "description": "Suggestion box for Project Trans",
   "author": {
     "name": "Project Trans Team Members",
@@ -19,12 +19,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
     },
-    "./preset": {
-      "types": "./dist/preset.d.ts",
-      "import": "./dist/preset.js",
-      "require": "./dist/preset.umd.cjs",
-      "default": "./dist/preset.umd.cjs"
-    },
     "./aio": {
       "types": "./dist/aio.d.ts",
       "import": "./dist/aio.js",
@@ -36,12 +30,6 @@
       "import": "./dist/aio.js",
       "require": "./dist/aio.umd.cjs",
       "default": "./dist/aio.umd.cjs"
-    },
-    "./dist/preset": {
-      "types": "./dist/preset.d.ts",
-      "import": "./dist/preset.js",
-      "require": "./dist/preset.umd.cjs",
-      "default": "./dist/preset.umd.cjs"
     },
     "./dist/style.css": "./dist/style.css"
   },

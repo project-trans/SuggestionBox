@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { type FunctionDirective, ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -33,6 +33,10 @@ const imageUrls = ref<string[]>([])
 const sending = ref(false)
 const sentSuccess = ref(false)
 const sentFailed = ref(false)
+const vAutoHeight: FunctionDirective<HTMLTextAreaElement> = (el) => {
+  el.style.height = 'auto'
+  el.style.height = `${el.scrollHeight}px`
+}
 
 watch(
   images,
@@ -161,6 +165,7 @@ async function handleSubmit() {
     <label class="inline-grid items-stretch sb-auto-height">
       <textarea
         v-model="textContent"
+        v-auto-height
         class="min-h-0 resize-none rounded-t-md border-none p-2 text-inherit outline-none"
         bg="$vp-c-bg"
         :placeholder="textContentPlaceholder"

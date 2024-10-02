@@ -36,7 +36,6 @@ In `uno.config.ts`:
 
 ```ts
 import { defineConfig, presetUno, presetIcons } from 'unocss';
-import presetSBox from '@project-trans/suggestion-box/dist/preset';
 
 export default defineConfig({
   // ...
@@ -55,8 +54,6 @@ export default defineConfig({
     presetUno(),
     // SuggestionBox uses presetIcons
     presetIcons(),
-    // SuggestionBox's own rules
-    presetSBox(),
   ],
 });
 ```

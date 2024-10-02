@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: process.env.NODE_ENV === 'development'
     ? [
-        vue({ features: { customElement: true } }),
+        vue({ features: { customElement: true, optionsAPI: false } }),
         UnoCSS({
           mode: 'shadow-dom',
         }),

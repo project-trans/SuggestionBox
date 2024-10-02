@@ -15,12 +15,11 @@ import { build } from 'vite'
 // })
 // await writeFile('./dist/style.css', code)
 await build({
-  plugins: [vue(), UnoCSS()],
+  plugins: [vue({ features: { optionsAPI: false } }), UnoCSS()],
   build: {
     lib: {
       entry: [
         resolve(import.meta.dirname, '../src/index.ts'),
-        resolve(import.meta.dirname, '../src/preset.ts'),
       ],
       name: 'SuggestionBox',
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'umd.cjs'}`,
@@ -31,7 +30,7 @@ await build({
 
 await build({
   plugins: [
-    vue({ features: { customElement: true } }),
+    vue({ features: { customElement: true, optionsAPI: false } }),
     UnoCSS({
       mode: 'shadow-dom',
       presets: [presetUno({ dark: 'class' })],

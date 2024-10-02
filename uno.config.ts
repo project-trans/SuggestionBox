@@ -1,5 +1,4 @@
 import { defineConfig, presetAttributify, presetIcons, presetUno } from 'unocss'
-import unoPreset from './src/preset'
 
 export default defineConfig({
   presets: [
@@ -11,6 +10,5 @@ export default defineConfig({
       prefix: 'i-',
       warn: true,
     }),
-    unoPreset(),
   ],
 })
