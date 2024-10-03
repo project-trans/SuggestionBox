@@ -1,3 +1,4 @@
+import { copyFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 /* eslint-disable antfu/no-top-level-await */
 import vue from '@vitejs/plugin-vue'
@@ -47,3 +48,8 @@ await build({
     },
   },
 })
+
+await copyFile(
+  resolve(import.meta.dirname, '../src/App.vue'),
+  resolve(import.meta.dirname, '../dist/App.vue'),
+)
