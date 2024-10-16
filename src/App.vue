@@ -18,7 +18,7 @@ const props = withDefaults(
     sendingButtonText: '发送中...',
     sentSuccessButtonText: '发送成功，谢谢反馈',
     sentFailedButtonText: '发送失败，请稍后再试',
-    textContentPlaceholder: '输入内容',
+    textContentPlaceholder: '留下您的建议内容，以便我们进行改进',
     contactContentPlaceholder: '（可选）留下您的联系方式，方便我们直接与您联系',
     targetUrl: '',
   },
@@ -153,15 +153,6 @@ async function handleSubmit() {
     border="2 solid zinc-200 dark:zinc-800"
     @submit.prevent="() => {}"
   >
-    <label>
-      <input
-        v-model="contactContent"
-        class="min-h-0 w-full resize-none rounded-t-md border-none p-2 text-inherit outline-none"
-        bg="zinc-100 dark:zinc-900"
-        text="sm"
-        :placeholder="contactContentPlaceholder"
-      >
-    </label>
     <label class="inline-grid items-stretch sb-auto-height">
       <textarea
         v-model="textContent"
@@ -170,6 +161,15 @@ async function handleSubmit() {
         bg="$vp-c-bg"
         :placeholder="textContentPlaceholder"
       />
+    </label>
+    <label>
+      <input
+        v-model="contactContent"
+        class="min-h-0 w-full resize-none border-none p-2 text-inherit outline-none"
+        bg="zinc-100 dark:zinc-900"
+        text="sm"
+        :placeholder="contactContentPlaceholder"
+      >
     </label>
     <div class="m-2">
       <details v-if="imageUrls.length !== 0">
