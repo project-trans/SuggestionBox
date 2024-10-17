@@ -159,6 +159,7 @@ async function handleSubmit() {
         v-auto-height
         class="min-h-0 resize-none rounded-t-md border-none p-2 text-inherit outline-none"
         bg="$vp-c-bg"
+        text="base"
         :placeholder="textContentPlaceholder"
       />
     </label>
