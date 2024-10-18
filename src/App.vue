@@ -153,7 +153,7 @@ async function handleSubmit() {
     border="2 solid zinc-200 dark:zinc-800"
     @submit.prevent="() => {}"
   >
-    <label class="inline-grid items-stretch sb-auto-height">
+    <label class="inline-grid m-1 items-stretch">
       <textarea
         v-model="textContent"
         v-auto-height
@@ -163,6 +163,31 @@ async function handleSubmit() {
         :placeholder="textContentPlaceholder"
       />
     </label>
+    <details v-if="imageUrls.length !== 0" class="m-2">
+      <summary class="cursor-pointer appearance-none m-0!">
+        <span> 当前选中了 {{ imageUrls.length }} 张图片 </span>
+      </summary>
+      <div class="flex overflow-x-auto space-x-4">
+        <template v-for="(url, index) in imageUrls" :key="url">
+          <div class="relative">
+            <button
+              class="absolute right-1 top-1 h-8 w-8 inline-flex items-center justify-center rounded-md border-none duration-250"
+              transition="all ease-in-out"
+              bg="zinc-800 opacity-60 hover:opacity-80 active:opacity-50"
+              text="zinc-100"
+              @click="handleRemoveImage(index)"
+            >
+              <div i-octicon:trash-24 class="h-4 w-4 flex items-center justify-center" />
+            </button>
+            <img
+              :src="url"
+              class="block aspect-video h-full max-h-40 min-h-40 min-w-60 w-full overflow-hidden rounded-md object-cover"
+              alt="图片"
+            >
+          </div>
+        </template>
+      </div>
+    </details>
     <label>
       <input
         v-model="contactContent"
@@ -171,34 +196,8 @@ async function handleSubmit() {
         text="sm"
         :placeholder="contactContentPlaceholder"
       >
+
     </label>
-    <div class="m-2">
-      <details v-if="imageUrls.length !== 0">
-        <summary class="cursor-pointer appearance-none m-0!">
-          <span> 当前选中了 {{ imageUrls.length }} 张图片 </span>
-        </summary>
-        <div class="flex overflow-x-scroll space-x-4">
-          <template v-for="(url, index) in imageUrls" :key="url">
-            <div class="relative">
-              <button
-                class="absolute right-1 top-1 h-8 w-8 inline-flex items-center justify-center rounded-md border-none duration-250"
-                transition="all ease-in-out"
-                bg="zinc-800 opacity-60 hover:opacity-80 active:opacity-50"
-                text="zinc-100"
-                @click="handleRemoveImage(index)"
-              >
-                <div i-octicon:trash-24 class="h-4 w-4 flex items-center justify-center" />
-              </button>
-              <img
-                :src="url"
-                class="block aspect-video h-full max-h-40 min-h-40 min-w-60 w-full overflow-hidden rounded-md object-cover"
-                alt="图片"
-              >
-            </div>
-          </template>
-        </div>
-      </details>
-    </div>
     <div
       class="flex justify-around gap-2 rounded-b-md p-2 !<sm:flex-col"
       bg="zinc-50 dark:zinc-900"
