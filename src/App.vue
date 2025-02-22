@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type FunctionDirective, ref, watch } from 'vue'
+import type { FunctionDirective } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -31,8 +32,10 @@ const images = ref<File[]>([])
 const imageUrls = ref<string[]>([])
 
 const sending = ref(false)
-const sentSuccess = ref(false)
+const message = ref('')
 const sentFailed = ref(false)
+const sentSuccess = computed(() => message.value.startsWith('#TN'))
+const disableInput = computed(() => sending.value || sentSuccess.value)
 const vAutoHeight: FunctionDirective<HTMLTextAreaElement> = (el) => {
   el.style.height = 'auto'
   el.style.height = `${el.scrollHeight}px`
@@ -48,6 +51,8 @@ watch(
     deep: true,
   },
 )
+
+watch(sentSuccess, () => {})
 
 /**
  * Handle file input change
@@ -93,10 +98,9 @@ function handleRemoveImage(index: number) {
  * Submit form data
  */
 async function handleSubmit() {
-  sentSuccess.value = false
   sentFailed.value = false
 
-  if (!textContent.value)
+  if (!textContent.value || sentSuccess.value)
     return
 
   const formData = new FormData()
@@ -113,15 +117,13 @@ async function handleSubmit() {
   try {
     sending.value = true
 
-    await fetch(props.targetUrl || '', {
+    const { message: responseMessage } = await fetch(props.targetUrl || '', {
       method: 'POST',
       body: formData,
-      // otherwise the fetch() call will failed even
-      // when the request has been sent successfully
-      // due to the CORS policy
-      mode: 'no-cors',
       referrerPolicy: 'unsafe-url',
-    })
+    }).then(res => res.json())
+
+    message.value = responseMessage
 
     sending.value = false
   }
@@ -131,17 +133,13 @@ async function handleSubmit() {
     console.error(err)
 
     setTimeout(() => {
-      sentSuccess.value = false
       sentFailed.value = false
     }, 2000)
 
     return
   }
 
-  sentSuccess.value = true
-
   setTimeout(() => {
-    sentSuccess.value = false
     sentFailed.value = false
   }, 2000)
 }
@@ -157,10 +155,12 @@ async function handleSubmit() {
       <textarea
         v-model="textContent"
         v-auto-height
-        class="min-h-0 resize-none rounded-t-md border-none p-2 text-inherit outline-none"
+        class="min-h-0 resize-none rounded-t-md border-none p-2 outline-none"
         bg="$vp-c-bg"
-        text="base"
+        text="inherit base disabled:zinc"
+        cursor="disabled:not-allowed"
         :placeholder="textContentPlaceholder"
+        :disabled="disableInput"
       />
     </label>
     <details v-if="imageUrls.length !== 0" class="m-2">
@@ -175,6 +175,7 @@ async function handleSubmit() {
               transition="all ease-in-out"
               bg="zinc-800 opacity-60 hover:opacity-80 active:opacity-50"
               text="zinc-100"
+              :disabled="disableInput"
               @click="handleRemoveImage(index)"
             >
               <div i-octicon:trash-24 class="h-4 w-4 flex items-center justify-center" />
@@ -193,8 +194,10 @@ async function handleSubmit() {
         v-model="contactContent"
         class="min-h-0 w-full resize-none border-none p-2 text-inherit outline-none"
         bg="zinc-100 dark:zinc-900"
+        cursor="disabled:not-allowed"
         text="sm"
         :placeholder="contactContentPlaceholder"
+        :disabled="disableInput"
       >
 
     </label>
@@ -202,13 +205,16 @@ async function handleSubmit() {
       class="flex justify-around gap-2 rounded-b-md p-2 !<sm:flex-col"
       bg="zinc-50 dark:zinc-900"
     >
-      <label :aria-label="props.attachImageButtonText" class="w-full flex justify-center">
+      <label
+        :aria-label="props.attachImageButtonText" class="w-full flex justify-center"
+      >
         <input
           ref="inputFile"
           type="file"
           accept="image/*"
           multiple
           hidden
+          :disabled="disableInput"
           @change="handleChange"
         >
         <button
@@ -216,6 +222,8 @@ async function handleSubmit() {
           transition="all ease-in-out"
           bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
           text="zinc-700 dark:zinc-300 base"
+          cursor="disabled:not-allowed"
+          :disabled="disableInput"
           @click="handleSelectImage"
         >
           <div i-octicon:image-24 class="mr-1 flex items-center justify-center" />
@@ -237,7 +245,7 @@ async function handleSubmit() {
         transition="all ease-in-out"
         bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
         text="base"
-        :disabled="!textContent || sending || sentSuccess || sentFailed"
+        :disabled="!textContent || disableInput || sentFailed"
         @click="handleSubmit"
       >
         <div class="flex items-center justify-center">

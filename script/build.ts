@@ -18,6 +18,7 @@ import { build } from 'vite'
 await build({
   plugins: [vue({ features: { optionsAPI: false } }), UnoCSS()],
   build: {
+    sourcemap: true,
     lib: {
       entry: [
         resolve(import.meta.dirname, '../src/index.ts'),
@@ -38,6 +39,7 @@ await build({
     }),
   ],
   build: {
+    sourcemap: true,
     emptyOutDir: false,
     lib: {
       entry: [
