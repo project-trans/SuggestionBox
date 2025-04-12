@@ -1,10 +1,12 @@
 import type { InputMediaPhoto } from 'grammy/types'
 import type { ENV } from './types'
+import { PrismaD1 } from '@prisma/adapter-d1'
 import { Bot, InputFile, InputMediaBuilder } from 'grammy'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { cors } from 'hono/cors'
 import { customAlphabet } from 'nanoid'
+import { PrismaClient } from './generated/prisma'
 
 export interface Env {
   DB: D1Database
@@ -33,14 +35,35 @@ app.get('/', (c) => {
 
 app.use('/api/*', cors())
 
+app.get('/api/v1/image/:id', async (c) => {
+  const { DB } = env(c)
+  if (!DB) {
+    throw new Error('DB is not binded')
+  }
+  const id = c.req.param('id')
+  const adapter = new PrismaD1(DB)
+  const prisma = new PrismaClient({ adapter })
+  const image = await prisma.image.findUnique({ where: { id: Number(id) } })
+  if (!image) {
+    return c.json(newErrorFormat400('Image not found'), 400)
+  }
+  const buffer = (image.content)
+  return new Response(buffer)
+})
+
 app.post('/api/v1/suggestion', async (c) => {
-  const { TG_BOT_TOKEN, TG_GROUP_ID } = env(c)
+  const { TG_BOT_TOKEN, TG_GROUP_ID, DB } = env(c)
   if (!TG_BOT_TOKEN) {
     throw new Error('TG_BOT_TOKEN is not set')
   }
   if (!TG_GROUP_ID) {
     throw new Error('TG_GROUP_ID is not set')
   }
+  if (!DB) {
+    throw new Error('DB is not binded')
+  }
+  const adapter = new PrismaD1(DB)
+  const prisma = new PrismaClient({ adapter })
   const bot = new Bot(TG_BOT_TOKEN)
 
   let metaUA = ''
@@ -74,6 +97,26 @@ app.post('/api/v1/suggestion', async (c) => {
   }
 
   const ticketNumber = `#TN-${nanoid()}`
+
+  try {
+    const images = await Promise.all(reqImages.map(async (image) => {
+      const buffer = new Uint8Array(await image.arrayBuffer())
+      return buffer
+    }))
+    await prisma.ticket.create({
+      data: {
+        id: ticketNumber,
+        ua: metaUA,
+        ip: metaIP,
+        referrer: metaReferrer,
+        contact: contactContent,
+        content: textContent,
+        images: { create: images.map(image => ({ content: image })) },
+      },
+    })
+  }
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  catch (e) {}
 
   const msgs = [`<b>意见箱收到新消息</b> ${ticketNumber}\n`]
   msgs.push(`${replaceHtmlTag(textContent)}\n`)

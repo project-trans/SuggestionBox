@@ -21,3 +21,4 @@ enabled = true
 binding = "DB"
 database_name = "suggestion-box-data"
 database_id = "7b1c388e-25ab-4f55-a82c-63fbfece4c5b"
+preview_database_id = "8fd2b5af-a722-472f-9439-f4d5d75a0f22"
