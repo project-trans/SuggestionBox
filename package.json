@@ -86,7 +86,9 @@
       "object.values": "npm:@nolyfill/object.values@^1"
     },
     "onlyBuiltDependencies": [
+      "@prisma/engines",
       "esbuild",
+      "prisma",
       "sharp",
       "workerd"
     ]

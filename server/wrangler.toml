@@ -1,6 +1,10 @@
 name = "suggestion-box-server"
 compatibility_date = "2025-04-12"
+compatibility_flags = [ "nodejs_compat" ]
 main = "src/index.ts"
+
+[observability.logs]
+enabled = true
 
 # [vars]
 # MY_VARIABLE = "production_value"
@@ -13,7 +17,7 @@ main = "src/index.ts"
 # binding = "MY_BUCKET"
 # bucket_name = "my-bucket"
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
+[[d1_databases]]
+binding = "DB"
+database_name = "suggestion-box-data"
+database_id = "7b1c388e-25ab-4f55-a82c-63fbfece4c5b"

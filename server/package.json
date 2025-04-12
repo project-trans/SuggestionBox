@@ -8,12 +8,16 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@prisma/adapter-d1": "^6.6.0",
+    "@prisma/client": "6.6.0",
     "grammy": "^1.35.1",
     "hono": "^4.7.6",
     "nanoid": "^5.1.5"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250412.0",
+    "@types/node": "^22.13.5",
+    "prisma": "^6.6.0",
     "wrangler": "^4.10.0"
   }
 }

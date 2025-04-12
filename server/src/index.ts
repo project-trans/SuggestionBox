@@ -6,6 +6,10 @@ import { env } from 'hono/adapter'
 import { cors } from 'hono/cors'
 import { customAlphabet } from 'nanoid'
 
+export interface Env {
+  DB: D1Database
+}
+
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', 8)
 
 const IP_HEADER = 'CF-Connecting-IP'
@@ -16,7 +20,7 @@ function newErrorFormat400(message = 'The data format of the request is invalid.
   return { code: 400.001, message }
 }
 
-const app = new Hono()
+const app = new Hono<{ Bindings: ENV }>()
 
 app.onError((err, c) => {
   console.error(String(err))
@@ -30,7 +34,7 @@ app.get('/', (c) => {
 app.use('/api/*', cors())
 
 app.post('/api/v1/suggestion', async (c) => {
-  const { TG_BOT_TOKEN, TG_GROUP_ID } = env<ENV>(c)
+  const { TG_BOT_TOKEN, TG_GROUP_ID } = env(c)
   if (!TG_BOT_TOKEN) {
     throw new Error('TG_BOT_TOKEN is not set')
   }

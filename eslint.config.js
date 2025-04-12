@@ -8,5 +8,6 @@ export default antfu({
     '**/*.md',
     '**/*.yaml',
     '**/*.yml',
+    '**/generated/**',
   ],
 })
