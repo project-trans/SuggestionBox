@@ -8,12 +8,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "grammy": "^1.21.1",
-    "hono": "^4.0.8",
+    "grammy": "^1.35.1",
+    "hono": "^4.7.6",
     "nanoid": "^5.1.5"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240208.0",
-    "wrangler": "^3.25.0"
+    "@cloudflare/workers-types": "^4.20250412.0",
+    "wrangler": "^4.10.0"
   }
 }

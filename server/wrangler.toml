@@ -1,5 +1,6 @@
-name = "server"
-compatibility_date = "2023-12-01"
+name = "suggestion-box-server"
+compatibility_date = "2025-04-12"
+main = "src/index.ts"
 
 # [vars]
 # MY_VARIABLE = "production_value"
