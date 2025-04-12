@@ -3,6 +3,10 @@ import type { ENV } from './types'
 import { Bot, InputFile, InputMediaBuilder } from 'grammy'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
+import { cors } from 'hono/cors'
+import { customAlphabet } from 'nanoid'
+
+const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', 8)
 
 const IP_HEADER = 'CF-Connecting-IP'
 
@@ -23,8 +27,16 @@ app.get('/', (c) => {
   return c.text('Hello, Project Trans SuggestionBox!')
 })
 
+app.use('/api/*', cors())
+
 app.post('/api/v1/suggestion', async (c) => {
   const { TG_BOT_TOKEN, TG_GROUP_ID } = env<ENV>(c)
+  if (!TG_BOT_TOKEN) {
+    throw new Error('TG_BOT_TOKEN is not set')
+  }
+  if (!TG_GROUP_ID) {
+    throw new Error('TG_GROUP_ID is not set')
+  }
   const bot = new Bot(TG_BOT_TOKEN)
 
   let metaUA = ''
@@ -57,22 +69,38 @@ app.post('/api/v1/suggestion', async (c) => {
     return c.json(newErrorFormat400(), 400)
   }
 
-  const msgs = [`<b>意见箱收到新消息</b>\n`]
+  const ticketNumber = `#TN-${nanoid()}`
+
+  const msgs = [`<b>意见箱收到新消息</b> ${ticketNumber}\n`]
   msgs.push(`${replaceHtmlTag(textContent)}\n`)
   contactContent
   && msgs.push(
-    `<b>联系方式</b>\n<blockquote><code>${replaceHtmlTag(contactContent)}</code></blockquote>`,
+    `<b>联系方式</b>\n<blockquote><code>${replaceHtmlTag(
+      contactContent,
+    )}</code></blockquote>`,
   )
   metaReferrer
-  && msgs.push(`<b>Referrer</b>\n<blockquote>${replaceHtmlTag(metaReferrer)}</blockquote>`)
+  && msgs.push(
+    `<b>Referrer</b>\n<blockquote>${replaceHtmlTag(
+      metaReferrer,
+    )}</blockquote>`,
+  )
   if (metaIP) {
     msgs.push(
-      `<b>IP</b>    <i><a href="https://ip.sb/ip/${encodeURIComponent(metaIP)}">View in Web</a></i>\n<blockquote><code>${replaceHtmlTag(metaIP)}</code></blockquote>`,
+      `<b>IP</b>    <i><a href="https://ip.sb/ip/${encodeURIComponent(
+        metaIP,
+      )}">View in Web</a></i>\n<blockquote><code>${replaceHtmlTag(
+        metaIP,
+      )}</code></blockquote>`,
     )
   }
   if (metaUA) {
     msgs.push(
-      `<b>UA</b>    <i><a href="https://uaparser.js.org/?ua=${encodeURIComponent(metaUA)}">View in Web</a></i>\n<pre><code>${replaceHtmlTag(metaUA)}</code></pre>`,
+      `<b>UA</b>    <i><a href="https://uaparser.js.org/?ua=${encodeURIComponent(
+        metaUA,
+      )}">View in Web</a></i>\n<pre><code>${replaceHtmlTag(
+        metaUA,
+      )}</code></pre>`,
     )
   }
   const message = msgs.join('\n')
@@ -83,23 +111,27 @@ app.post('/api/v1/suggestion', async (c) => {
   }
 
   try {
-    if (msgImages.length)
+    if (msgImages.length) {
       await bot.api.sendMediaGroup(TG_GROUP_ID, msgImages)
-    else
+    }
+    else {
       await bot.api.sendMessage(TG_GROUP_ID, message, { parse_mode: 'HTML' })
-
-    return c.json(newSuccess())
+    }
+    return c.json(newSuccess(ticketNumber))
   }
   catch (error) {
     // TODO handle error
     // TODO log error
     console.error(error)
-    return c.json(newError500(), 500)
+    throw error
   }
 })
 
 export default app
 
 function replaceHtmlTag(str: string) {
-  return str.replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('&', '&amp;')
+  return str
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('&', '&amp;')
 }
