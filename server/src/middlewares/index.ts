@@ -1,6 +1,10 @@
 import type { InputMediaPhoto } from 'grammy/types'
-import { InputFile, InputMediaBuilder } from 'grammy'
+import type { ENV } from '../types'
+import { PrismaD1 } from '@prisma/adapter-d1'
+import { Bot, InputFile, InputMediaBuilder } from 'grammy'
+import { env } from 'hono/adapter'
 import { createMiddleware } from 'hono/factory'
+import { PrismaClient } from '../generated/prisma'
 import { getTicketId, newErrorFormat400, replaceHtmlTag } from '../utils'
 
 interface Ticket {
@@ -91,6 +95,45 @@ export const decodeTicket = createMiddleware<{ Variables: { ticket: Ticket } }>(
       // TODO log error
       console.error(error)
       return c.json(newErrorFormat400(), 400)
+    }
+    await next()
+  },
+)
+
+export const getImage = createMiddleware<{ Bindings: ENV, Variables: { image: Uint8Array } }>(
+  async (c, next) => {
+    const { TG_BOT_TOKEN, DB } = env(c)
+    const id = c.req.param('id')
+    if (!TG_BOT_TOKEN) {
+      throw new Error('TG_BOT_TOKEN is not set')
+    }
+    if (!DB) {
+      throw new Error('DB is not binded')
+    }
+    if (!id)
+      return c.json(newErrorFormat400('Image id is required'), 400)
+
+    const bot = new Bot(TG_BOT_TOKEN)
+    const adapter = new PrismaD1(DB)
+    const prisma = new PrismaClient({ adapter })
+    const image = await prisma.image.findUnique({ where: { id } })
+    if (!image) {
+      return c.json(newErrorFormat400('Image not found'), 404)
+    }
+    if (!image.content) {
+      const file = await bot.api.getFile(id)
+      const filePath = file.file_path
+      if (!filePath) {
+        return c.json(newErrorFormat400('Image not found'), 404)
+      }
+      const buffer = await fetch(`https://api.telegram.org/file/bot${TG_BOT_TOKEN}/${filePath}`).then(r => r.arrayBuffer())
+      const content = new Uint8Array(buffer)
+      await prisma.image.update({ where: { id }, data: { content, usedAt: new Date() } })
+      c.set('image', content)
+    }
+    else {
+      await prisma.image.update({ where: { id }, data: { usedAt: new Date() } })
+      c.set('image', image.content)
     }
     await next()
   },

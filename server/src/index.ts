@@ -5,8 +5,8 @@ import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { cors } from 'hono/cors'
 import { PrismaClient } from './generated/prisma'
-import { decodeTicket } from './middlewares/ticket'
-import { getImagesID, newError500, newErrorFormat400, newSuccess } from './utils'
+import { decodeTicket, getImage } from './middlewares'
+import { getImagesID, newError500, newSuccess } from './utils'
 
 const app = new Hono<{ Bindings: ENV }>()
 
@@ -21,19 +21,8 @@ app.get('/', (c) => {
 
 app.use('/api/*', cors())
 
-app.get('/api/v1/image/:id', async (c) => {
-  const { DB } = env(c)
-  if (!DB) {
-    throw new Error('DB is not binded')
-  }
-  const id = c.req.param('id')
-  const adapter = new PrismaD1(DB)
-  const prisma = new PrismaClient({ adapter })
-  const image = await prisma.image.findUnique({ where: { id } })
-  if (!image) {
-    return c.json(newErrorFormat400('Image not found'), 400)
-  }
-  const buffer = (image.content)
+app.get('/api/v1/image/:id', getImage, async (c) => {
+  const buffer = c.get('image')
   return new Response(buffer)
 })
 
