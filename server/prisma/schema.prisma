@@ -38,8 +38,8 @@ model Ticket {
 }
 
 model Image {
-  id       Int    @id @default(autoincrement())
+  id       String @id
   ticket   Ticket @relation(fields: [ticketId], references: [id])
   ticketId String
-  content  Bytes
+  content  Bytes?
 }
