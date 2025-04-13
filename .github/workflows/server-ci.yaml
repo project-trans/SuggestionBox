@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - 'server/**'
+      - 'packages/server/**'
 
 
 jobs:
@@ -31,5 +31,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           packageManager: pnpm
-          workingDirectory: server
+          workingDirectory: packages/server
           command: deploy

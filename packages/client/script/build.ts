@@ -2,7 +2,7 @@ import { copyFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 /* eslint-disable antfu/no-top-level-await */
 import vue from '@vitejs/plugin-vue'
-import { presetUno } from 'unocss'
+import { presetWind3 } from 'unocss'
 import UnoCSS from 'unocss/vite'
 import { build } from 'vite'
 
@@ -35,7 +35,7 @@ await build({
     vue({ features: { customElement: true, optionsAPI: false } }),
     UnoCSS({
       mode: 'shadow-dom',
-      presets: [presetUno({ dark: 'class' })],
+      presets: [presetWind3({ dark: 'class' })],
     }),
   ],
   build: {

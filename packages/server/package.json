@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "@project-trans/suggestion-box-server",
   "private": true,
   "scripts": {
     "prepare": "prisma generate",

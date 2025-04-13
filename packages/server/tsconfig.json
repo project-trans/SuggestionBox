@@ -18,5 +18,6 @@
     "noUnusedParameters": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["generated"]
 }
