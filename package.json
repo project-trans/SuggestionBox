@@ -15,7 +15,7 @@
     "url": "https://github.com/project-trans/SuggestionBox"
   },
   "scripts": {
-    "build": "pnpm -F @project-trans/suggestion-box build",
+    "build": "pnpm -F @project-trans/* build",
     "lint": "pnpm -F @project-trans/* lint",
     "typecheck": "pnpm -F @project-trans/* typecheck"
   },
