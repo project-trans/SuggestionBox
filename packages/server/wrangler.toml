@@ -2,6 +2,7 @@ name = "suggestion-box-server"
 compatibility_date = "2025-04-12"
 compatibility_flags = [ "nodejs_compat" ]
 main = "src/index.ts"
+minify = true
 
 [observability.logs]
 enabled = true
