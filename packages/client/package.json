@@ -1,7 +1,7 @@
 {
   "name": "@project-trans/suggestion-box",
   "type": "module",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Suggestion box for Project Trans",
   "author": {
     "name": "Project Trans Team Members",
