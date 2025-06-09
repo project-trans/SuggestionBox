@@ -1,7 +1,7 @@
 import { defineCustomElement, h, onUnmounted, ref } from 'vue'
 import App from './App.vue'
 
-const SuggestionBox = defineCustomElement({
+export const SuggestionBox = defineCustomElement({
   props: {
     attachImageButtonText: String,
     sendButtonText: String,
@@ -24,6 +24,5 @@ const SuggestionBox = defineCustomElement({
       h('div', { class: classes.value }, h(App, { ...props }))
   },
 })
-customElements.define('suggestion-box', SuggestionBox)
 
-export { }
+customElements.define('suggestion-box', SuggestionBox)
