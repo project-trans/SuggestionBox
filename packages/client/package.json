@@ -1,7 +1,7 @@
 {
   "name": "@project-trans/suggestion-box",
   "type": "module",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Suggestion box for Project Trans",
   "author": {
     "name": "Project Trans Team Members",
@@ -14,18 +14,18 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/src/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
     },
     "./aio": {
-      "types": "./dist/aio.d.ts",
+      "types": "./dist/src/aio.d.ts",
       "import": "./dist/aio.js",
       "require": "./dist/aio.umd.cjs",
       "default": "./dist/aio.umd.cjs"
     },
     "./component": {
-      "types": "./dist/App.vue.d.ts",
+      "types": "./dist/src/App.vue.d.ts",
       "import": "./dist/App.vue",
       "require": "./dist/App.vue",
       "default": "./dist/App.vue"
@@ -34,7 +34,7 @@
   },
   "main": "dist/index.umd.cjs",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "files": [
     "dist"
   ],
