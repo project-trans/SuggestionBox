@@ -148,7 +148,7 @@ async function handleSubmit() {
 <template>
   <form
     class="flex flex-col overflow-hidden rounded-lg"
-    border="2 solid zinc-200 dark:zinc-800"
+    border="2 solid $c-border-light dark:$c-border-dark"
     @submit.prevent="() => {}"
   >
     <label class="inline-grid m-1 items-stretch">
@@ -156,8 +156,8 @@ async function handleSubmit() {
         v-model="textContent"
         v-auto-height
         class="min-h-0 resize-none rounded-t-md border-none p-2 outline-none"
-        bg="$vp-c-bg"
-        text="inherit base disabled:zinc"
+        bg="$c-textarea-bg-light dark:$c-textarea-bg-dark"
+        text="inherit base disabled:$c-textarea-disabled-text"
         cursor="disabled:not-allowed"
         :placeholder="textContentPlaceholder"
         :disabled="disableInput"
@@ -193,7 +193,7 @@ async function handleSubmit() {
       <input
         v-model="contactContent"
         class="min-h-0 w-full resize-none border-none p-2 text-inherit outline-none"
-        bg="zinc-100 dark:zinc-900"
+        bg="$c-contact-bg-light dark:$c-contact-bg-dark"
         cursor="disabled:not-allowed"
         text="sm"
         :placeholder="contactContentPlaceholder"
@@ -203,7 +203,7 @@ async function handleSubmit() {
     </label>
     <div
       class="flex justify-around gap-2 rounded-b-md p-2 !<sm:flex-col"
-      bg="zinc-50 dark:zinc-900"
+      bg="$c-action-bg-light dark:$c-action-bg-dark"
     >
       <label
         :aria-label="props.attachImageButtonText" class="w-full flex justify-center"
@@ -301,4 +301,17 @@ async function handleSubmit() {
 /*
 @unocss-placeholder
 */
+
+:host {
+  --c-bg-opacity: 1;
+  --c-border-light: rgb(228 228 231 / var(--c-bg-opacity));
+  --c-border-dark: rgb(39 39 42 / var(--c-bg-opacity));
+  --c-textarea-bg-light: rgb(255 255 255 / var(--c-bg-opacity));
+  --c-textarea-bg-dark: #1b1b1f;
+  --c-textarea-disabled-text: rgb(161 161 170);
+  --c-contact-bg-light: rgb(244 244 245 / var(--c-bg-opacity));
+  --c-contact-bg-dark: rgb(24 24 27 / var(--c-bg-opacity));
+  --c-action-bg-light: rgb(250 250 250 / var(--c-bg-opacity));
+  --c-action-bg-dark: rgb(24 24 27 / var(--c-bg-opacity));
+}
 </style>
