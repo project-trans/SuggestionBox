@@ -16,6 +16,7 @@ overrides:
   object.fromentries: npm:@nolyfill/object.fromentries@^1
   object.groupby: npm:@nolyfill/object.groupby@^1
   object.values: npm:@nolyfill/object.values@^1
+  synckit: npm:synckit@0.11.8
   vite: npm:rolldown-vite@7.0.3
 
 importers:
@@ -1064,10 +1065,6 @@ packages:
 
   '@oxc-project/types@0.75.0':
     resolution: {integrity: sha512-QMW+06WOXs7+F301Y3X0VpmWhwuQVc/X/RP2zF9OIwvSMmsif3xURS2wxbakFIABYsytgBcHpUcFepVS0Qnd3A==}
-
-  '@pkgr/core@0.1.2':
-    resolution: {integrity: sha512-fdDH1LSGfZdTH2sxdpVMw31BanV28K/Gry0cVFxaNP77neJSkd82mM8ErPNYs9e+0O7SdHBLTDzDgwUuy18RnQ==}
-    engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
   '@pkgr/core@0.2.7':
     resolution: {integrity: sha512-YLT9Zo3oNPJoBjBc4q8G2mjU4tqIbf5CEOORbUUr48dCD9q3umJ3IPlVqOqDakPfd2HuwccBaqlGhN4Gmr5OWg==}
@@ -3234,10 +3231,6 @@ packages:
     resolution: {integrity: sha512-+XZ+r1XGIJGeQk3VvXhT6xx/VpbHsRzsTkGgF6E5RX9TTXD0118l87puaEBZ566FhqblC6U0d4XnubznJDm30A==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
-  synckit@0.9.3:
-    resolution: {integrity: sha512-JJoOEKTfL1urb1mDoEblhD9NhEbWmq9jHEMEnxoC4ujUaZ4itA8vKgwkFAyNClgxplLi9tsUKX+EduK0p/l7sg==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-
   tapable@2.2.2:
     resolution: {integrity: sha512-Re10+NauLTMCudc7T5WLFLAwDhQ0JWdrMK+9B2M8zR5hRExKmsRDCBA7/aV/pNJFltmBFO5BAMlQFi/vq3nKOg==}
     engines: {node: '>=6'}
@@ -4374,9 +4367,6 @@ snapshots:
 
   '@oxc-project/types@0.75.0': {}
 
-  '@pkgr/core@0.1.2':
-    optional: true
-
   '@pkgr/core@0.2.7': {}
 
   '@polka/url@1.0.0-next.29': {}
@@ -5450,7 +5440,7 @@ snapshots:
       eslint-formatting-reporter: 0.0.0(eslint@9.30.1(jiti@2.4.2))
       eslint-parser-plain: 0.1.1
       prettier: 3.6.2
-      synckit: 0.9.3
+      synckit: 0.11.8
     optional: true
 
   eslint-plugin-import-lite@0.3.0(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3):
@@ -6841,12 +6831,6 @@ snapshots:
   synckit@0.11.8:
     dependencies:
       '@pkgr/core': 0.2.7
-
-  synckit@0.9.3:
-    dependencies:
-      '@pkgr/core': 0.1.2
-      tslib: 2.8.1
-    optional: true
 
   tapable@2.2.2: {}
 

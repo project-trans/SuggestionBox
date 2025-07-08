@@ -18,10 +18,10 @@ function getLargestImage(images: PhotoSize[]): PhotoSize {
 
 export function getImagesID(messages:
 (
-  Message.PhotoMessage |
-  Message.AudioMessage |
-  Message.DocumentMessage |
-  Message.VideoMessage)[]) {
+  Message.PhotoMessage
+  | Message.AudioMessage
+  | Message.DocumentMessage
+  | Message.VideoMessage)[]) {
   const photoMessages = messages.filter(message => 'photo' in message)
   const images = photoMessages.map(message => getLargestImage(message.photo))
   return images.map(image => image.file_id)
