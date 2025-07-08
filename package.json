@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@10.8.0+sha512.0e82714d1b5b43c74610193cb20734897c1d00de89d0e18420aebc5977fa13d780a9cb05734624e81ebd81cc876cd464794850641c48b9544326b5622ca29971",
+  "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
   "description": "Suggestion box for Project Trans",
   "author": {
     "name": "Project Trans Team Members",
@@ -14,16 +14,19 @@
   "repository": {
     "url": "https://github.com/project-trans/SuggestionBox"
   },
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "build": "pnpm -F @project-trans/* build",
     "lint": "pnpm -F @project-trans/* lint",
     "typecheck": "pnpm -F @project-trans/* typecheck"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.12.0",
-    "@types/node": "^22.14.1",
-    "@unocss/eslint-plugin": "^66.0.0",
-    "eslint": "^9.24.0",
+    "@antfu/eslint-config": "^4.16.2",
+    "@types/node": "^24.0.10",
+    "@unocss/eslint-plugin": "^66.3.3",
+    "eslint": "^9.30.1",
     "typescript": "^5.8.3"
   },
   "pnpm": {
@@ -38,7 +41,8 @@
       "object.entries": "npm:@nolyfill/object.entries@^1",
       "object.fromentries": "npm:@nolyfill/object.fromentries@^1",
       "object.groupby": "npm:@nolyfill/object.groupby@^1",
-      "object.values": "npm:@nolyfill/object.values@^1"
+      "object.values": "npm:@nolyfill/object.values@^1",
+      "vite": "npm:rolldown-vite@7.0.3"
     },
     "onlyBuiltDependencies": [
       "@prisma/client",
