@@ -241,7 +241,7 @@ async function handleSubmit() {
             ? 'text-zinc-700 disabled:text-zinc-700 dark:text-zinc-300 dark:disabled:text-zinc-300'
             : 'text-zinc-700 disabled:text-zinc-400 dark:text-zinc-300 dark:disabled:text-zinc-600',
         ]"
-        class="block w-full flex cursor-pointer justify-center rounded-md border-none px-2 py-2 duration-250"
+        class="w-full flex cursor-pointer justify-center rounded-md border-none px-2 py-2 duration-250"
         transition="all ease-in-out"
         bg="zinc-200 hover:zinc-300 active:zinc-400 dark:zinc-800 dark:hover:zinc-700 dark:active:zinc-600"
         text="base"
