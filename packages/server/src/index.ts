@@ -5,6 +5,7 @@ import { Bot } from 'grammy'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { cors } from 'hono/cors'
+import { etag } from 'hono/etag'
 import { image as imageTable, ticket as ticketTable } from './db/schema'
 import { decodeTicket, getImage } from './middlewares'
 import { getImagesID, newError500, newSuccess } from './utils'
@@ -15,6 +16,8 @@ app.onError((err, c) => {
   console.error(String(err))
   return c.json(newError500(), 500)
 })
+
+app.use('*', etag())
 
 app.get('/', (c) => {
   return c.text('Hello, Project Trans SuggestionBox!')
