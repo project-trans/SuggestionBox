@@ -1,5 +1,6 @@
 import type { ENV } from './types'
 import { drizzle } from 'drizzle-orm/d1'
+import { fileTypeFromBuffer } from 'file-type'
 import { Bot } from 'grammy'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
@@ -23,7 +24,8 @@ app.use('/api/*', cors())
 
 app.get('/api/v1/image/:id', getImage, async (c) => {
   const buffer = c.get('image')
-  return new Response(buffer)
+  const type = await fileTypeFromBuffer(buffer)
+  return new Response(buffer, { headers: type ? { 'Content-Type': type.mime } : undefined })
 })
 
 app.post('/api/v1/suggestion', decodeTicket, async (c) => {
