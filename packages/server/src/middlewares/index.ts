@@ -1,10 +1,12 @@
 import type { InputMediaPhoto } from 'grammy/types'
 import type { ENV } from '../types'
-import { PrismaD1 } from '@prisma/adapter-d1'
+import { Buffer } from 'node:buffer'
+import { eq, sql } from 'drizzle-orm'
+import { drizzle } from 'drizzle-orm/d1'
 import { Bot, InputFile, InputMediaBuilder } from 'grammy'
 import { env } from 'hono/adapter'
 import { createMiddleware } from 'hono/factory'
-import { PrismaClient } from '../generated/prisma'
+import * as schema from '../db/schema'
 import { getTicketId, newErrorFormat400, replaceHtmlTag } from '../utils'
 
 interface Ticket {
@@ -114,9 +116,8 @@ export const getImage = createMiddleware<{ Bindings: ENV, Variables: { image: Ui
       return c.json(newErrorFormat400('Image id is required'), 400)
 
     const bot = new Bot(TG_BOT_TOKEN)
-    const adapter = new PrismaD1(DB)
-    const prisma = new PrismaClient({ adapter })
-    const image = await prisma.image.findUnique({ where: { id } })
+    const db = drizzle(DB, { schema })
+    const image = await db.query.image.findFirst({ where: eq(schema.image.id, id) })
     if (!image) {
       return c.json(newErrorFormat400('Image not found'), 404)
     }
@@ -128,11 +129,11 @@ export const getImage = createMiddleware<{ Bindings: ENV, Variables: { image: Ui
       }
       const buffer = await fetch(`https://api.telegram.org/file/bot${TG_BOT_TOKEN}/${filePath}`).then(r => r.arrayBuffer())
       const content = new Uint8Array(buffer)
-      await prisma.image.update({ where: { id }, data: { content, usedAt: new Date() } })
+      await db.update(schema.image).set({ content: Buffer.from(content), usedAt: sql`CURRENT_TIMESTAMP` }).where(eq(schema.image.id, id))
       c.set('image', content)
     }
     else {
-      await prisma.image.update({ where: { id }, data: { usedAt: new Date() } })
+      await db.update(schema.image).set({ usedAt: sql`CURRENT_TIMESTAMP` }).where(eq(schema.image.id, id))
       c.set('image', image.content)
     }
     await next()

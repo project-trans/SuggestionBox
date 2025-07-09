@@ -1,10 +1,10 @@
 import type { ENV } from './types'
-import { PrismaD1 } from '@prisma/adapter-d1'
+import { drizzle } from 'drizzle-orm/d1'
 import { Bot } from 'grammy'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { cors } from 'hono/cors'
-import { PrismaClient } from './generated/prisma'
+import { image as imageTable, ticket as ticketTable } from './db/schema'
 import { decodeTicket, getImage } from './middlewares'
 import { getImagesID, newError500, newSuccess } from './utils'
 
@@ -37,8 +37,7 @@ app.post('/api/v1/suggestion', decodeTicket, async (c) => {
   if (!DB) {
     throw new Error('DB is not binded')
   }
-  const adapter = new PrismaD1(DB)
-  const prisma = new PrismaClient({ adapter })
+  const db = drizzle(DB)
   const bot = new Bot(TG_BOT_TOKEN)
 
   const ticket = c.get('ticket')
@@ -52,17 +51,17 @@ app.post('/api/v1/suggestion', decodeTicket, async (c) => {
     else {
       await bot.api.sendMessage(TG_GROUP_ID, ticket.message, { parse_mode: 'HTML' })
     }
-    await prisma.ticket.create({
-      data: {
-        id: ticket.id,
-        ua: ticket.ua,
-        ip: ticket.ip,
-        referrer: ticket.referrer,
-        contact: ticket.contact,
-        content: ticket.content,
-        images: { create: images.map(image => ({ id: image })) },
-      },
-    })
+    const newTicket: typeof ticketTable.$inferInsert = {
+      id: ticket.id,
+      ua: ticket.ua,
+      ip: ticket.ip,
+      referrer: ticket.referrer,
+      contact: ticket.contact,
+      content: ticket.content,
+    }
+    await db.insert(ticketTable).values(newTicket)
+    const newImages: typeof imageTable.$inferInsert[] = images.map(image => ({ id: image, ticketId: ticket.id }))
+    await db.insert(imageTable).values(newImages)
     return c.json(newSuccess(ticket.id))
   }
   catch (error) {
