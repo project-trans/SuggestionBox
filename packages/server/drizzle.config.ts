@@ -1,6 +1,11 @@
+import path from 'node:path'
 import process from 'node:process'
+import { config } from 'dotenv'
 import { defineConfig } from 'drizzle-kit'
-import 'dotenv/config'
+
+const envPath = path.resolve(__dirname, '.dev.vars')
+
+config({ path: envPath })
 
 export default defineConfig({
   schema: './src/db/schema.ts',

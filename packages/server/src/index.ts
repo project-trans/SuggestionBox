@@ -64,9 +64,12 @@ app.post('/api/v1/suggestion', decodeTicket, async (c) => {
       contact: ticket.contact,
       content: ticket.content,
     }
-    await db.insert(ticketTable).values(newTicket)
     const newImages: typeof imageTable.$inferInsert[] = images.map(image => ({ id: image, ticketId: ticket.id }))
-    await db.insert(imageTable).values(newImages)
+    await db.transaction(async (tx) => {
+      await tx.insert(ticketTable).values(newTicket)
+      if (newImages.length !== 0)
+        await tx.insert(imageTable).values(newImages)
+    })
     return c.json(newSuccess(ticket.id))
   }
   catch (error) {
