@@ -19,11 +19,11 @@ app.onError((err, c) => {
 
 app.use('*', etag())
 
-app.get('/', (c) => {
+app.use('/api/*', cors())
+
+app.get('/api', (c) => {
   return c.text('Hello, Project Trans SuggestionBox!')
 })
-
-app.use('/api/*', cors())
 
 app.get('/api/v1/image/:id', getImage, async (c) => {
   const buffer = c.get('image')

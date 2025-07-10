@@ -1,18 +1,18 @@
-name: Server CI
+name: Worker CI
 
-# Only on main, server folder
+# Only on main, worker folder
 on:
   workflow_dispatch:
   push:
     branches:
       - main
     paths:
-      - 'packages/server/**'
+      - 'packages/worker/**'
 
 
 jobs:
-  deploy-server:
-    name: Deploy Server to Cloudflare Worker
+  deploy-worker:
+    name: Deploy Worker to Cloudflare Worker
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,11 +25,13 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - name: pnpm build
+        run: pnpm build
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           packageManager: pnpm
-          workingDirectory: packages/server
+          workingDirectory: packages/worker
           command: deploy

@@ -42,8 +42,8 @@
       "object.fromentries": "npm:@nolyfill/object.fromentries@^1",
       "object.groupby": "npm:@nolyfill/object.groupby@^1",
       "object.values": "npm:@nolyfill/object.values@^1",
-      "synckit": "npm:synckit@0.11.8",
-      "vite": "npm:rolldown-vite@7.0.3"
+      "synckit": "npm:synckit@0.11.8"
+
     },
     "onlyBuiltDependencies": [
       "@prisma/client",
