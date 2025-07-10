@@ -18,5 +18,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src/admin', import.meta.url)),
     },
   },
+  server: { port: 8787 },
   build: { minify: true },
 })
