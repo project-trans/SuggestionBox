@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.16.2",
-    "@types/node": "^24.0.10",
+    "@types/node": "^24.0.13",
     "@unocss/eslint-plugin": "^66.3.3",
     "eslint": "^9.30.1",
     "typescript": "^5.8.3"
@@ -43,7 +43,6 @@
       "object.groupby": "npm:@nolyfill/object.groupby@^1",
       "object.values": "npm:@nolyfill/object.values@^1",
       "synckit": "npm:synckit@0.11.8"
-
     },
     "onlyBuiltDependencies": [
       "@prisma/client",

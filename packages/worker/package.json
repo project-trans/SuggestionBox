@@ -5,7 +5,6 @@
   "scripts": {
     "deploy": "wrangler deploy --minify src/index.ts",
     "lint": "eslint --cache .",
-    "typecheck": "tsc --noEmit",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -13,6 +12,9 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@hono/arktype-validator": "^2.0.1",
+    "@pinia/colada": "^0.17.1",
+    "arktype": "^2.1.20",
     "drizzle-orm": "^0.44.2",
     "file-type": "^21.0.0",
     "grammy": "^1.37.0",
@@ -23,20 +25,21 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.9.1",
-    "@cloudflare/workers-types": "^4.20250709.0",
+    "@cloudflare/vite-plugin": "^1.9.4",
+    "@cloudflare/workers-types": "^4.20250711.0",
+    "@pinia/colada-devtools": "^0.1.5",
     "@tsconfig/node24": "^24.0.1",
-    "@types/node": "^24.0.12",
+    "@types/node": "^24.0.13",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitejs/plugin-vue-jsx": "^5.0.1",
     "@vue/tsconfig": "^0.7.0",
-    "dotenv": "^17.1.0",
+    "dotenv": "^17.2.0",
     "drizzle-kit": "^0.31.4",
     "npm-run-all2": "^8.0.4",
     "typescript": "~5.8.0",
-    "vite": "^7.0.3",
+    "vite": "^7.0.4",
     "vite-plugin-vue-devtools": "^7.7.7",
     "vue-tsc": "^3.0.1",
-    "wrangler": "^4.24.0"
+    "wrangler": "^4.24.3"
   }
 }

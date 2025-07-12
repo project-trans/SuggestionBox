@@ -10,8 +10,8 @@ run_worker_first = [ "/api*" ]
 [observability.logs]
 enabled = true
 
-# [vars]
-# MY_VARIABLE = "production_value"
+[vars]
+SERVE_URL = "https://suggestion-box.project-trans.org"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"

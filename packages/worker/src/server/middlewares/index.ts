@@ -1,4 +1,6 @@
+import type { DrizzleD1Database } from 'drizzle-orm/d1'
 import type { InputMediaPhoto } from 'grammy/types'
+import type { Context } from 'hono'
 import type { ENV } from '../types'
 import { Buffer } from 'node:buffer'
 import { eq, sql } from 'drizzle-orm'
@@ -22,6 +24,23 @@ interface Ticket {
 }
 
 const IP_HEADER = 'CF-Connecting-IP'
+
+export function getDrizzle(c: Context<{ Bindings: ENV, Variables: any }>) {
+  const { DB } = env(c)
+  if (!DB) {
+    throw new Error('DB is not binded')
+  }
+  return drizzle(DB, { schema })
+}
+
+export const withDrizzle = createMiddleware<{
+  Bindings: ENV
+  Variables: { drizzle: DrizzleD1Database<typeof schema> }
+}>(async (c, next) => {
+  const db = getDrizzle(c)
+  c.set('drizzle', db)
+  await next()
+})
 
 export const decodeTicket = createMiddleware<{ Variables: { ticket: Ticket } }>(
   async (c, next) => {
@@ -102,21 +121,18 @@ export const decodeTicket = createMiddleware<{ Variables: { ticket: Ticket } }>(
   },
 )
 
-export const getImage = createMiddleware<{ Bindings: ENV, Variables: { image: Uint8Array } }>(
+export const getImage = createMiddleware<{ Bindings: ENV, Variables: { image: Uint8Array, drizzle: DrizzleD1Database<typeof schema> } }>(
   async (c, next) => {
-    const { TG_BOT_TOKEN, DB } = env(c)
+    const { TG_BOT_TOKEN } = env(c)
     const id = c.req.param('id')
     if (!TG_BOT_TOKEN) {
       throw new Error('TG_BOT_TOKEN is not set')
-    }
-    if (!DB) {
-      throw new Error('DB is not binded')
     }
     if (!id)
       return c.json(newErrorFormat400('Image id is required'), 400)
 
     const bot = new Bot(TG_BOT_TOKEN)
-    const db = drizzle(DB, { schema })
+    const db = getDrizzle(c)
     const image = await db.query.image.findFirst({ where: eq(schema.image.id, id) })
     if (!image) {
       return c.json(newErrorFormat400('Image not found'), 404)
@@ -128,8 +144,8 @@ export const getImage = createMiddleware<{ Bindings: ENV, Variables: { image: Ui
         return c.json(newErrorFormat400('Image not found'), 404)
       }
       const buffer = await fetch(`https://api.telegram.org/file/bot${TG_BOT_TOKEN}/${filePath}`).then(r => r.arrayBuffer())
-      const content = new Uint8Array(buffer)
-      await db.update(schema.image).set({ content: Buffer.from(content), usedAt: sql`CURRENT_TIMESTAMP` }).where(eq(schema.image.id, id))
+      const content = Buffer.from(buffer)
+      await db.update(schema.image).set({ content, usedAt: sql`CURRENT_TIMESTAMP` }).where(eq(schema.image.id, id))
       c.set('image', content)
     }
     else {

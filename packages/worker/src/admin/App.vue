@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { PiniaColadaDevtools } from '@pinia/colada-devtools'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import LoginButton from './components/LoginButton'
 </script>
 
 <template>
@@ -17,11 +19,26 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/about">
           About
         </RouterLink>
+        <LoginButton />
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <RouterView v-slot="{ Component }">
+    <template v-if="Component">
+      <Transition mode="out-in">
+        <Suspense>
+          <!-- 主要内容 -->
+          <component :is="Component" />
+          <!-- 加载中状态 -->
+          <template #fallback>
+            正在加载...
+          </template>
+        </Suspense>
+      </Transition>
+    </template>
+  </RouterView>
+  <PiniaColadaDevtools />
 </template>
 
 <style scoped>
@@ -85,5 +102,16 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.2s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
