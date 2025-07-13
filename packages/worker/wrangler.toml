@@ -12,6 +12,7 @@ enabled = true
 
 [vars]
 SERVE_URL = "https://suggestion-box.project-trans.org"
+ORG_NAME = "project-trans"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
