@@ -9,4 +9,5 @@ export type ENV = {
   GH_APP_CLIENT_SECRET: string
   JWT_SECRET: string
   SERVE_URL: string
+  ORG_NAME: string
 }

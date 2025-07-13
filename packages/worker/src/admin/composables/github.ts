@@ -5,7 +5,7 @@ export async function useGitHubOAuthURL() {
   const { data, refresh } = useQuery({
     key: ['start auth url'],
     query: async () => {
-      const res = await fetch('/api/v1/admin/start_auth')
+      const res = await fetch('/api/v1/auth/start_auth')
       const data: { code: number, data: { url: string } } = await res.json()
       return data
     },

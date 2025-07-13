@@ -1,1 +1,1 @@
-{"root":["./src/server/index.ts","./src/server/types.ts","./src/server/db/relations.ts","./src/server/db/schema.ts","./src/server/middlewares/index.ts","./src/server/routes/admin.ts","./src/server/utils/index.ts"],"version":"5.8.3"}
+{"root":["./src/server/index.ts","./src/server/types.ts","./src/server/db/relations.ts","./src/server/db/schema.ts","./src/server/middlewares/authorization.ts","./src/server/middlewares/index.ts","./src/server/routes/admin.ts","./src/server/utils/index.ts"],"version":"5.8.3"}

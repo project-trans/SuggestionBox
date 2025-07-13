@@ -20,7 +20,7 @@ const router = createRouter({
     {
       path: '/oauth',
       name: 'oauth',
-      component: () => import('../views/OAuthView.vue'),
+      component: () => import('../views/OAuthView'),
     },
   ],
 })

@@ -1,15 +1,13 @@
 import type { DrizzleD1Database } from 'drizzle-orm/d1'
 import type { InputMediaPhoto } from 'grammy/types'
-import type { Context } from 'hono'
 import type { ENV } from '../types'
 import { Buffer } from 'node:buffer'
 import { eq, sql } from 'drizzle-orm'
-import { drizzle } from 'drizzle-orm/d1'
 import { Bot, InputFile, InputMediaBuilder } from 'grammy'
 import { env } from 'hono/adapter'
 import { createMiddleware } from 'hono/factory'
 import * as schema from '../db/schema'
-import { getTicketId, newErrorFormat400, replaceHtmlTag } from '../utils'
+import { getDrizzle, getTicketId, newErrorFormat400, replaceHtmlTag } from '../utils'
 
 interface Ticket {
   id: string
@@ -24,14 +22,6 @@ interface Ticket {
 }
 
 const IP_HEADER = 'CF-Connecting-IP'
-
-export function getDrizzle(c: Context<{ Bindings: ENV, Variables: any }>) {
-  const { DB } = env(c)
-  if (!DB) {
-    throw new Error('DB is not binded')
-  }
-  return drizzle(DB, { schema })
-}
 
 export const withDrizzle = createMiddleware<{
   Bindings: ENV

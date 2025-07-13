@@ -2,7 +2,7 @@
 import { PiniaColadaDevtools } from '@pinia/colada-devtools'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import LoginButton from './components/LoginButton'
+import UserInfo from './components/UserInfo'
 </script>
 
 <template>
@@ -19,7 +19,7 @@ import LoginButton from './components/LoginButton'
         <RouterLink to="/about">
           About
         </RouterLink>
-        <LoginButton />
+        <UserInfo />
       </nav>
     </div>
   </header>

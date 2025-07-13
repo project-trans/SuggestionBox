@@ -11,5 +11,6 @@ export default antfu({
     'node_modules',
     '.yarn',
     'dist',
+    '.wrangler',
   ],
 })

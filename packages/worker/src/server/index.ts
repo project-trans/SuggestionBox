@@ -8,6 +8,7 @@ import { etag } from 'hono/etag'
 import { image as imageTable, ticket as ticketTable } from './db/schema'
 import { decodeTicket, getImage, withDrizzle } from './middlewares'
 import admin from './routes/admin'
+import auth from './routes/auth'
 import { getImagesID, newError500, newSuccess } from './utils'
 
 const app = new Hono<{ Bindings: ENV }>()
@@ -69,6 +70,7 @@ app.post('/api/v1/suggestion', decodeTicket, withDrizzle, async (c) => {
   return c.json(newSuccess(ticket.id))
 })
 
+app.route('/api/v1/auth', auth)
 app.route('/api/v1/admin', admin)
 
 app.onError((err, c) => {
