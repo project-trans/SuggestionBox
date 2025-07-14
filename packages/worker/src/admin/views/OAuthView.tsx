@@ -6,7 +6,7 @@ import ErrorBoundary from '@/components/ErrorBoundary.vue'
 import { useTokens } from '@/composables/auth'
 
 const OAuthViewInner = defineComponent(async () => {
-  const tokens = useTokens()
+  const { set: setTokens } = useTokens()
   const route = useRoute()
   const { code, state } = route.query as { code: string, state: string }
   const res = await ky<{ code: 200, message: '', data: GhAuthResponse }>(
@@ -16,7 +16,7 @@ const OAuthViewInner = defineComponent(async () => {
       json: { code, state },
     },
   ).json()
-  tokens.value = res.data
+  setTokens(res.data)
   return () => (
     <div>
       <h1>OAuth</h1>

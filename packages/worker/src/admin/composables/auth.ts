@@ -3,6 +3,7 @@ import type { VerifyGhTokenResponse } from '../../server/utils'
 import { useQuery } from '@pinia/colada'
 import { StorageSerializers, useLocalStorage } from '@vueuse/core'
 import ky from 'ky'
+import { watch } from 'vue'
 
 interface StateBase {
   type: 'unauthorized' | 'authorized' | 'refreshing'
@@ -35,18 +36,23 @@ export interface Refreshing extends StateBase {
 type AuthState = Unauthorized | Authorized | Refreshing
 
 export function useTokens() {
-  return useLocalStorage<GhAuthResponse | null>(
+  const tokens = useLocalStorage<GhAuthResponse | null>(
     'tokens',
     null,
     { serializer: StorageSerializers.object },
   )
+  return {
+    tokens,
+    clear: () => { tokens.value = null },
+    set: (data: GhAuthResponse) => { tokens.value = data },
+  }
 }
 
-export async function useAuth() {
-  const tokens = useTokens()
-  const { data, refresh } = useQuery<AuthState>({
+export async function useAuth<T extends AuthState>() {
+  const { tokens, clear: clearTokens } = useTokens()
+  const { data, refresh, refetch } = useQuery({
     key: ['auth'],
-    query: async () => {
+    query: (async () => {
       if (!tokens.value) {
         const newState: Unauthorized = {
           type: 'unauthorized',
@@ -79,7 +85,6 @@ export async function useAuth() {
         }
         return newState
       }
-
       // eslint-disable-next-line unused-imports/no-unused-vars
       catch (error) {
         const newState: Refreshing = {
@@ -90,10 +95,23 @@ export async function useAuth() {
         }
         return newState
       }
-    },
+    }) as () => Promise<T>,
   })
+
   if (!data.value) {
     await refresh()
   }
-  return { data }
+
+  watch(() => data.value, (value) => {
+    if (!value || value.type === 'unauthorized')
+      return
+    if (Date.now() > value.refreshExpiresAt) {
+      clearTokens()
+    }
+  })
+
+  watch(() => tokens.value, () => {
+    refetch()
+  })
+  return { data, refresh, refetch }
 }

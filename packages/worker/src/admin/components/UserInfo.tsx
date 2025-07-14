@@ -1,7 +1,8 @@
-import type { PropType } from 'vue'
-import type { Authorized } from '@/composables/auth'
+import type { GhAuthResponse } from '../../server/routes/auth'
+import type { Authorized, Refreshing } from '@/composables/auth'
+import ky from 'ky'
 import { defineComponent, Suspense } from 'vue'
-import { useAuth } from '@/composables/auth'
+import { useAuth, useTokens } from '@/composables/auth'
 import { useGitHubOAuthURL } from '@/composables/github'
 
 const LoginButton = defineComponent({
@@ -15,30 +16,44 @@ const LoginButton = defineComponent({
   },
 })
 
-const UserInfo = defineComponent({
-  props: {
-    authState: { type: Object as PropType<Authorized>, required: true },
-  },
-  setup: (props) => {
-    return () => (
-      <div>
-        <h2>User Information</h2>
-        <p>
-          Name:
-          {props.authState.user.name}
-        </p>
-        <p>Avatar:</p>
-        <img src={props.authState.user.avatar} alt="User Avatar" />
-      </div>
-    )
-  },
+const RefreshTokenButton = defineComponent(async () => {
+  const { data: authState, refetch } = await useAuth<Refreshing>()
+  const { set: setTokens } = useTokens()
+  const handleRefresh = async () => {
+    const res = await ky<{ code: 200, message: '', data: GhAuthResponse }>('/api/v1/auth/refresh_token', {
+      method: 'POST',
+      json: { refreshToken: authState.value!.refreshToken },
+    }).json()
+    setTokens(res.data)
+    await refetch()
+  }
+
+  return () => <button type="button" onClick={handleRefresh}>Refresh</button>
+})
+
+const UserInfo = defineComponent(async () => {
+  const { data: authState } = await useAuth<Authorized>()
+  const { clear: clearTokens } = useTokens()
+  return () => (
+    <>
+      <span>
+        {authState.value!.user.name}
+      </span>
+      <button type="button" onClick={() => clearTokens()}>
+        Logout
+      </button>
+    </>
+  )
 })
 
 const Switcher = defineComponent(async () => {
   const { data: authState } = await useAuth()
   return () => {
     if (authState.value?.type === 'authorized') {
-      return <UserInfo authState={authState.value} />
+      return <UserInfo />
+    }
+    if (authState.value?.type === 'refreshing') {
+      return <RefreshTokenButton />
     }
     return <LoginButton />
   }
