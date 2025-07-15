@@ -17,15 +17,14 @@ const LoginButton = defineComponent({
 })
 
 const RefreshTokenButton = defineComponent(async () => {
-  const { data: authState, refetch } = await useAuth<Refreshing>()
+  const { data: authState } = await useAuth<Refreshing>()
   const { set: setTokens } = useTokens()
   const handleRefresh = async () => {
     const res = await ky<{ code: 200, message: '', data: GhAuthResponse }>('/api/v1/auth/refresh_token', {
       method: 'POST',
-      json: { refreshToken: authState.value!.refreshToken },
+      json: { refreshToken: authState.value.refreshToken },
     }).json()
     setTokens(res.data)
-    await refetch()
   }
 
   return () => <button type="button" onClick={handleRefresh}>Refresh</button>
@@ -37,7 +36,7 @@ const UserInfo = defineComponent(async () => {
   return () => (
     <>
       <span>
-        {authState.value!.user.name}
+        {authState.value.user.name}
       </span>
       <button type="button" onClick={() => clearTokens()}>
         Logout
@@ -49,13 +48,14 @@ const UserInfo = defineComponent(async () => {
 const Switcher = defineComponent(async () => {
   const { data: authState } = await useAuth()
   return () => {
-    if (authState.value?.type === 'authorized') {
-      return <UserInfo />
+    switch (authState.value.type) {
+      case 'authorized':
+        return <UserInfo />
+      case 'refreshing':
+        return <RefreshTokenButton />
+      default:
+        return <LoginButton />
     }
-    if (authState.value?.type === 'refreshing') {
-      return <RefreshTokenButton />
-    }
-    return <LoginButton />
   }
 })
 

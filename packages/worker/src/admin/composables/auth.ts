@@ -1,9 +1,9 @@
+import type { ShallowRef } from 'vue'
 import type { GhAuthResponse } from '../../server/routes/auth'
 import type { VerifyGhTokenResponse } from '../../server/utils'
 import { useQuery } from '@pinia/colada'
 import { StorageSerializers, useLocalStorage } from '@vueuse/core'
 import ky from 'ky'
-import { watch } from 'vue'
 
 interface StateBase {
   type: 'unauthorized' | 'authorized' | 'refreshing'
@@ -48,17 +48,46 @@ export function useTokens() {
   }
 }
 
+function createUnauthorizedState(): Unauthorized {
+  return {
+    type: 'unauthorized',
+    actions: ['login'],
+  }
+}
+
+function createAuthorizedState(data: VerifyGhTokenResponse, tokens: GhAuthResponse): Authorized {
+  return {
+    type: 'authorized',
+    actions: ['logout', 'token expired'],
+    user: {
+      name: data.user.name,
+      avatar: data.user.avatar,
+    },
+    membership: data.membership,
+    token: tokens.access_token,
+    refreshToken: tokens.refresh_token,
+    expiresAt: tokens.expires_at,
+    refreshExpiresAt: tokens.refresh_expires_at,
+  }
+}
+
+function createRefreshingState(tokens: GhAuthResponse): Refreshing {
+  return {
+    type: 'refreshing',
+    actions: ['success', 'refresh token expired'],
+    refreshToken: tokens.refresh_token,
+    refreshExpiresAt: tokens.refresh_expires_at,
+  }
+}
+
 export async function useAuth<T extends AuthState>() {
   const { tokens, clear: clearTokens } = useTokens()
+
   const { data, refresh, refetch } = useQuery({
-    key: ['auth'],
+    key: () => ['auth', { token: tokens.value?.access_token, refreshToken: tokens.value?.refresh_token }],
     query: (async () => {
       if (!tokens.value) {
-        const newState: Unauthorized = {
-          type: 'unauthorized',
-          actions: ['login'],
-        }
-        return newState
+        return createUnauthorizedState()
       }
       try {
         const res = await ky<{ code: 200, message: '', data: VerifyGhTokenResponse }>(
@@ -69,31 +98,15 @@ export async function useAuth<T extends AuthState>() {
             },
           },
         ).json()
-        const { data } = res
-        const newState: Authorized = {
-          type: 'authorized',
-          actions: ['logout', 'token expired'],
-          user: {
-            name: data.user.name,
-            avatar: data.user.avatar,
-          },
-          membership: data.membership,
-          token: tokens.value.access_token,
-          refreshToken: tokens.value.refresh_token,
-          expiresAt: tokens.value.expires_at,
-          refreshExpiresAt: tokens.value.refresh_expires_at,
-        }
-        return newState
+        return createAuthorizedState(res.data, tokens.value)
       }
       // eslint-disable-next-line unused-imports/no-unused-vars
       catch (error) {
-        const newState: Refreshing = {
-          type: 'refreshing',
-          actions: ['success', 'refresh token expired'],
-          refreshToken: tokens.value.refresh_token,
-          refreshExpiresAt: tokens.value.refresh_expires_at,
+        if (tokens.value.refresh_expires_at > Date.now()) {
+          clearTokens()
+          return createUnauthorizedState()
         }
-        return newState
+        return createRefreshingState(tokens.value)
       }
     }) as () => Promise<T>,
   })
@@ -102,16 +115,5 @@ export async function useAuth<T extends AuthState>() {
     await refresh()
   }
 
-  watch(() => data.value, (value) => {
-    if (!value || value.type === 'unauthorized')
-      return
-    if (Date.now() > value.refreshExpiresAt) {
-      clearTokens()
-    }
-  })
-
-  watch(() => tokens.value, () => {
-    refetch()
-  })
-  return { data, refresh, refetch }
+  return { data: data as ShallowRef<T>, refresh, refetch }
 }

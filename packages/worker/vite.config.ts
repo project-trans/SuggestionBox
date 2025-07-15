@@ -25,5 +25,9 @@ export default defineConfig({
     },
   },
   server: { port: 8787 },
-  build: { minify: true },
+  build: {
+    minify: true,
+    // Expected, to make the source code be distributed with service.
+    sourcemap: true,
+  },
 })
