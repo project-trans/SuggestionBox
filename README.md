@@ -2,6 +2,8 @@
 
 Suggestion box for Project Trans's website.
 
+The whole monorepo is copyrighted by 北雁云依.
+
 ## Usage
 
 ```bash

@@ -1,4 +1,3 @@
-import type { ShallowRef } from 'vue'
 import type { GhAuthResponse } from '../../server/routes/auth'
 import type { VerifyGhTokenResponse } from '../../server/utils'
 import { useQuery } from '@pinia/colada'
