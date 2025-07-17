@@ -1,4 +1,5 @@
 import { sql } from 'drizzle-orm'
+import { relations } from 'drizzle-orm/relations'
 import { blob, index, numeric, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const ticket = sqliteTable('Ticket', {
@@ -28,3 +29,14 @@ export const image = sqliteTable('Image', {
 }, table => [
   index('image_ticketId_idx').on(table.ticketId),
 ])
+
+export const imageRelations = relations(image, ({ one }) => ({
+  ticket: one(ticket, {
+    fields: [image.ticketId],
+    references: [ticket.id],
+  }),
+}))
+
+export const ticketRelations = relations(ticket, ({ many }) => ({
+  images: many(image),
+}))

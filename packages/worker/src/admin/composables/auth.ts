@@ -102,7 +102,7 @@ export async function useAuth<T extends AuthState>() {
       }
       // eslint-disable-next-line unused-imports/no-unused-vars
       catch (error) {
-        if (tokens.value.refresh_expires_at > Date.now()) {
+        if (tokens.value.refresh_expires_at < Date.now()) {
           clearTokens()
           return createUnauthorizedState()
         }
@@ -115,5 +115,5 @@ export async function useAuth<T extends AuthState>() {
     await refresh()
   }
 
-  return { data: data as ShallowRef<T>, refresh, refetch }
+  return { data, refresh, refetch }
 }

@@ -22,7 +22,7 @@ const RefreshTokenButton = defineComponent(async () => {
   const handleRefresh = async () => {
     const res = await ky<{ code: 200, message: '', data: GhAuthResponse }>('/api/v1/auth/refresh_token', {
       method: 'POST',
-      json: { refreshToken: authState.value.refreshToken },
+      json: { refreshToken: authState.value!.refreshToken },
     }).json()
     setTokens(res.data)
   }
@@ -36,7 +36,7 @@ const UserInfo = defineComponent(async () => {
   return () => (
     <>
       <span>
-        {authState.value.user.name}
+        {authState.value!.user.name}
       </span>
       <button type="button" onClick={() => clearTokens()}>
         Logout
@@ -48,7 +48,7 @@ const UserInfo = defineComponent(async () => {
 const Switcher = defineComponent(async () => {
   const { data: authState } = await useAuth()
   return () => {
-    switch (authState.value.type) {
+    switch (authState.value?.type) {
       case 'authorized':
         return <UserInfo />
       case 'refreshing':
