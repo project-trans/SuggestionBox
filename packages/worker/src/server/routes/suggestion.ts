@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm'
 import { Bot } from 'grammy'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
+import markdownit from 'markdown-it'
 import { image as imageTable, ticket as ticketTable } from '../db/schema'
 import { decodeTicket, withDrizzle } from '../middlewares'
 import { getImagesID, newSuccess } from '../utils'
@@ -48,10 +49,16 @@ router.post('/', decodeTicket, withDrizzle, async (c) => {
 router.get('/:id', withDrizzle, async (c) => {
   const db = c.get('drizzle')
   const id = c.req.param('id')
-  const ticket = await db.query.ticket.findFirst({ where: eq(ticketTable.id, `#${id}`), with: { images: true } })
+  const ticket = await db.query.ticket.findFirst({
+    where: eq(ticketTable.id, `#${id}`),
+    columns: { ip: false, ua: false },
+    with: { images: { columns: { id: true } } },
+  })
   if (!ticket) {
     return c.json({ code: 404, message: 'Ticket not found' }, 404)
   }
+  const md = markdownit()
+  ticket.content = md.render(ticket.content)
   return c.json({
     code: 200,
     message: '',
