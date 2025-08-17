@@ -37,18 +37,22 @@ export async function useSuggestion(id: string) {
   return { data, refresh, refetch }
 }
 
-export async function useSuggestions(page: number, limit: number) {
+export async function useSuggestions(offset: number, limit: number) {
   const { data: auth } = await useAuth()
   const { data, refresh, refetch } = useQuery({
-    key: ['suggestions', page, limit],
+    key: ['suggestions', offset, limit],
     query: async () => {
       // Theoretically, the auth state should be checked before this function is called
       if (auth.value?.type !== 'authorized')
         throw new Error('Unauthorized')
-      const res = await ky.get<{ code: number, message: string, data: TicketAdmin[] }>(
+      const res = await ky.get<{
+        code: number
+        message: string
+        data: { total: number, suggestions: TicketAdmin[] }
+      }>(
         '/api/v1/admin/suggestions',
         {
-          searchParams: { page, limit },
+          searchParams: { offset, limit },
           headers: { Authorization: `Bearer ${auth.value.token}` },
         },
       ).json()

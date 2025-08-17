@@ -2,7 +2,9 @@ import type { ENV } from '../types'
 import type { VerifyGhTokenResponse } from '../utils'
 import { arktypeValidator } from '@hono/arktype-validator'
 import { type } from 'arktype'
+import { count as sqlCount } from 'drizzle-orm'
 import { Hono } from 'hono'
+import { ticket } from '../db/schema'
 import { withDrizzle } from '../middlewares'
 import { protectWithAuthorization } from '../middlewares/authorization'
 import { newErrorFormat400 } from '../utils'
@@ -25,26 +27,28 @@ admin.get('/auth_state', (c) => {
 })
 
 const getSuggestionsQuery = type({
-  count: 'string?',
-  page: 'string?',
+  limit: 'string?',
+  offset: 'string?',
 })
 
 admin.get('/suggestions', arktypeValidator('query', getSuggestionsQuery, (res, c) => {
   if (!res.success)
     return c.json(newErrorFormat400('Invalid request format'), 400)
 }), withDrizzle, async (c) => {
-  const count = c.req.query('count') || '10'
-  const page = c.req.query('page') || '1'
+  const limit = c.req.query('limit') || '10'
+  const offset = c.req.query('offset') || '0'
   const db = c.get('drizzle')
-  const suggestions = await db.query.ticket.findMany({
-    limit: Number(count),
-    offset: (Number(page) - 1) * Number(count),
+  const suggestionsPms = db.query.ticket.findMany({
+    limit: Number(limit),
+    offset: Number(offset),
     orderBy: (s, { desc }) => [desc(s.createdAt)],
   })
+  const totalPms = db.select({ total: sqlCount() }).from(ticket).execute()
+  const [suggestions, total] = await Promise.all([suggestionsPms, totalPms])
   return c.json({
     code: 200,
     message: '',
-    data: suggestions,
+    data: { suggestions, total: total[0].total },
   })
 })
 
