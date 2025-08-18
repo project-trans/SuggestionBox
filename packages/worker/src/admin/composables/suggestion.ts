@@ -40,7 +40,12 @@ export async function useSuggestion(id: string) {
 export async function useSuggestions(offset: number, limit: number) {
   const { data: auth } = await useAuth()
   const { data, refresh, refetch } = useQuery({
-    key: ['suggestions', offset, limit],
+    key: () => {
+      if (!auth.value || auth.value.type !== 'authorized') {
+        return ['suggestions', offset, limit, 'unauthorized']
+      }
+      return ['suggestions', offset, limit, auth.value!.token]
+    },
     query: async () => {
       // Theoretically, the auth state should be checked before this function is called
       if (auth.value?.type !== 'authorized')
@@ -58,7 +63,7 @@ export async function useSuggestions(offset: number, limit: number) {
       ).json()
       return res.data
     },
-    enabled: auth.value?.type === 'authorized',
+    enabled: () => auth.value?.type === 'authorized',
   })
   if (!data.value) {
     await refresh()

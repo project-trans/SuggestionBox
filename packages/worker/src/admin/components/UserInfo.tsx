@@ -16,9 +16,10 @@ const LoginButton = defineComponent({
   },
 })
 
-const RefreshTokenButton = defineComponent(async () => {
+const RefreshToken = defineComponent(async () => {
   const { data: authState } = await useAuth<Refreshing>()
-  const { set: setTokens } = useTokens()
+  const { set: setTokens, clear: clearTokens } = useTokens()
+
   const handleRefresh = async () => {
     const res = await ky<{ code: 200, message: '', data: GhAuthResponse }>('/api/v1/auth/refresh_token', {
       method: 'POST',
@@ -27,7 +28,18 @@ const RefreshTokenButton = defineComponent(async () => {
     setTokens(res.data)
   }
 
-  return () => <button type="button" onClick={handleRefresh}>Refresh</button>
+  const handleClear = () => {
+    clearTokens()
+  }
+
+  handleRefresh()
+
+  return () => (
+    <>
+      <span>重新登录中，如长时间无响应请</span>
+      <button type="button" onClick={handleClear}>退出登录</button>
+    </>
+  )
 })
 
 const UserInfo = defineComponent(async () => {
@@ -52,9 +64,11 @@ const Switcher = defineComponent(async () => {
       case 'authorized':
         return <UserInfo />
       case 'refreshing':
-        return <RefreshTokenButton />
-      default:
+        return <RefreshToken />
+      case 'unauthorized':
         return <LoginButton />
+      default:
+        return <span>正在验证登录状态</span>
     }
   }
 })
