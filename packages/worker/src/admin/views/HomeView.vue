@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { useSuggestions } from '@/composables/suggestion'
+import { STATUS_MAP } from '@/utils'
 
 const { data: tickets } = await useSuggestions(0, 10)
-const STATUS_MAP = {
-  OPEN: '开启',
-  IN_PROGRESS: '进行中',
-  REJECTED: '已拒绝',
-  RESOLVED: '已完成',
-} as const
 </script>
 
 <template>
