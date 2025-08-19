@@ -48,6 +48,7 @@
       "@prisma/client",
       "@prisma/engines",
       "esbuild",
+      "oxc-resolver",
       "prisma",
       "sharp",
       "workerd"
