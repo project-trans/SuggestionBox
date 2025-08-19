@@ -7,7 +7,6 @@ import { useAuth } from './auth'
 interface Ticket {
   id: string
   referrer: string
-  contact: string | null
   content: string
   status: 'OPEN' | 'IN_PROGRESS' | 'REJECTED' | 'RESOLVED'
   relatedTo: string | null

@@ -51,7 +51,7 @@ router.get('/:id', withDrizzle, async (c) => {
   const id = c.req.param('id')
   const ticket = await db.query.ticket.findFirst({
     where: eq(ticketTable.id, `#${id}`),
-    columns: { ip: false, ua: false },
+    columns: { ip: false, ua: false, contact: false },
     with: { images: { columns: { id: true } } },
   })
   if (!ticket) {
