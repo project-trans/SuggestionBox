@@ -18,5 +18,6 @@ const { data } = await useSuggestion(id as string)
     <div v-html="data.content" />
     <p>ct {{ data.createdAt }}</p>
     <p>mt {{ data.updatedAt }}</p>
+    <img v-for="image in data.images" :key="image.id" :src="`/api/v1/image/${image.id}`">
   </div>
 </template>
