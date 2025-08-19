@@ -5,7 +5,8 @@
     "lib": ["ESNext", "DOM"],
     "paths": {
       "@/*": ["./src/admin/*"]
-    }
+    },
+    "types": ["vue-macros/macros-global"]
   },
   "include": ["env.d.ts", "src/admin/**/*", "src/admin/**/*.vue"],
   "exclude": ["src/admin/**/__tests__/*"],

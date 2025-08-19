@@ -12,14 +12,23 @@ const {
   canPrev,
   canNext,
 } = await useSuggestions()
-const styles = defineStyleX({ red: { color: 'red' } })
+
+const styles = defineStyleX({
+  clamp: {
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 3,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+})
 </script>
 
 <template>
   <main>
     <table v-if="tickets">
       <thead>
-        <tr v-stylex="styles.red">
+        <tr>
           <th>id</th>
           <th>内容</th>
           <th>提交时间</th>
@@ -33,7 +42,7 @@ const styles = defineStyleX({ red: { color: 'red' } })
               {{ ticket.id }}
             </RouterLink>
           </td>
-          <td>
+          <td v-stylex="styles.clamp">
             {{ ticket.content }}
           </td>
           <td>{{ new Date(ticket.createdAt).toISOString() }}</td>
