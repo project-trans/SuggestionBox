@@ -1,23 +1,28 @@
 import process from 'node:process'
 import { fileURLToPath, URL } from 'node:url'
 import { cloudflare } from '@cloudflare/vite-plugin'
+import { stylex } from '@stylex-extend/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
 import { analyzer } from 'vite-bundle-analyzer'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import vueMacros from 'vue-macros/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
-    vueJsx(),
+    vueMacros({
+      plugins: { vue: vue(), vueJsx: vueJsx() },
+      defineStyleX: true,
+    }),
     vueDevTools(),
     cloudflare(),
     analyzer({
       analyzerMode: 'static',
       enabled: process.env.CI !== 'true',
     }),
+    stylex(),
   ],
   resolve: {
     alias: {

@@ -23,11 +23,11 @@
     "typecheck": "pnpm -F @project-trans/* typecheck"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.16.2",
-    "@types/node": "^24.0.13",
-    "@unocss/eslint-plugin": "^66.3.3",
-    "eslint": "^9.30.1",
-    "typescript": "^5.8.3"
+    "@antfu/eslint-config": "^5.2.1",
+    "@types/node": "^24.3.0",
+    "@unocss/eslint-plugin": "^66.4.2",
+    "eslint": "^9.33.0",
+    "typescript": "^5.9.2"
   },
   "pnpm": {
     "overrides": {

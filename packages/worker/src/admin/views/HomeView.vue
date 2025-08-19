@@ -12,13 +12,14 @@ const {
   canPrev,
   canNext,
 } = await useSuggestions()
+const styles = defineStyleX({ red: { color: 'red' } })
 </script>
 
 <template>
   <main>
     <table v-if="tickets">
       <thead>
-        <tr>
+        <tr v-stylex="styles.red">
           <th>id</th>
           <th>内容</th>
           <th>提交时间</th>
