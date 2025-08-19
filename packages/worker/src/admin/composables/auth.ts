@@ -32,7 +32,7 @@ export interface Refreshing extends StateBase {
   refreshExpiresAt: number
 }
 
-type AuthState = Unauthorized | Authorized | Refreshing
+export type AuthState = Unauthorized | Authorized | Refreshing
 
 export function useTokens() {
   const tokens = useLocalStorage<GhAuthResponse | null>(
