@@ -26,8 +26,11 @@ interface TicketAdmin extends Ticket {
 export async function useSuggestion(id: string) {
   const { data, refresh, refetch } = useQuery({
     key: ['suggestion', id],
-    query: async () => {
-      const res = await ky.get<{ code: number, message: string, data: Ticket }>(`/api/v1/suggestion/${id}`).json()
+    query: async (ctx) => {
+      const res = await ky.get<{ code: number, message: string, data: Ticket }>(
+        `/api/v1/suggestion/${id}`,
+        { signal: ctx.signal },
+      ).json()
       return res.data
     },
     staleTime: Infinity,
@@ -50,7 +53,7 @@ const suggestionQuery = defineQueryOptions(
     const token = auth?.type === 'authorized' ? auth.token : 'unauthorized'
     return {
       key: getSuggestionQk(offset, limit, token),
-      query: async () => {
+      query: async (ctx) => {
       // Theoretically, the auth state should be checked before this function is called
         const res = await ky.get<{
           code: number
@@ -61,6 +64,7 @@ const suggestionQuery = defineQueryOptions(
           {
             searchParams: { offset, limit },
             headers: { Authorization: `Bearer ${token}` },
+            signal: ctx.signal,
           },
         ).json()
         return res.data
