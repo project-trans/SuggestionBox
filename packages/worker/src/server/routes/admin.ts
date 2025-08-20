@@ -2,9 +2,9 @@ import type { ENV } from '../types'
 import type { VerifyGhTokenResponse } from '../utils'
 import { arktypeValidator } from '@hono/arktype-validator'
 import { type } from 'arktype'
-import { count as sqlCount } from 'drizzle-orm'
+import { lt, sql, count as sqlCount } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { ticket } from '../db/schema'
+import { image, ticket } from '../db/schema'
 import { withDrizzle } from '../middlewares'
 import { protectWithAuthorization } from '../middlewares/authorization'
 import { newErrorFormat400 } from '../utils'
@@ -50,6 +50,15 @@ admin.get('/suggestions', arktypeValidator('query', getSuggestionsQuery, (res, c
     message: '',
     data: { suggestions, total: total[0].total },
   })
+})
+
+admin.delete('/images/gc', withDrizzle, async (c) => {
+  const db = c.get('drizzle')
+  await db.update(image).set({ content: null, updatedAt: sql`CURRENT_TIMESTAMP` }).where(
+    lt(image.usedAt, sql`datetime(CURRENT_TIMESTAMP, '-1 days')`),
+  ).execute()
+  c.status(204)
+  return c.res
 })
 
 export default admin

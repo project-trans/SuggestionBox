@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import ky from 'ky'
 import { RouterLink } from 'vue-router'
 import Pagination from '@/components/Pagination.vue'
+import { useTokens } from '@/composables/auth'
 import { useSuggestions } from '@/composables/suggestion'
 import { STATUS_MAP } from '@/utils'
 
@@ -15,10 +17,23 @@ const styles = defineStyleX({
     textOverflow: 'ellipsis',
   },
 })
+
+const { tokens } = useTokens()
+
+function handleGC() {
+  ky.delete('/api/v1/admin/images/gc', {
+    headers: {
+      Authorization: `Bearer ${tokens.value!.access_token}`,
+    },
+  })
+}
 </script>
 
 <template>
   <main>
+    <button @click.prevent="handleGC">
+      GC cached images
+    </button>
     <Pagination v-if="tickets" />
     <table v-if="tickets">
       <thead>
