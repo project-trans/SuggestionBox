@@ -1,5 +1,6 @@
 import type { AuthState } from './auth'
 import { defineQueryOptions, useQuery, useQueryCache } from '@pinia/colada'
+import { createSharedComposable } from '@vueuse/core'
 import ky from 'ky'
 import { computed, ref, watchEffect } from 'vue'
 import { useAuth } from './auth'
@@ -69,7 +70,7 @@ const suggestionQuery = defineQueryOptions(
   },
 )
 
-export async function useSuggestions() {
+async function useSuggestionsInner() {
   const limit = 10
   const page = ref(0)
   const { data: auth } = await useAuth()
@@ -119,3 +120,5 @@ export async function useSuggestions() {
 
   return { data, refresh, refetch, page, prev, next, totalPages, canPrev, canNext }
 }
+
+export const useSuggestions = createSharedComposable(useSuggestionsInner)

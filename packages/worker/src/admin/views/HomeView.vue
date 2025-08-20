@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import Pagination from '@/components/Pagination.vue'
 import { useSuggestions } from '@/composables/suggestion'
 import { STATUS_MAP } from '@/utils'
 
-const {
-  data: tickets,
-  page,
-  totalPages,
-  prev,
-  next,
-  canPrev,
-  canNext,
-} = await useSuggestions()
+const { data: tickets } = await useSuggestions()
 
 const styles = defineStyleX({
   clamp: {
@@ -26,6 +19,7 @@ const styles = defineStyleX({
 
 <template>
   <main>
+    <Pagination v-if="tickets" />
     <table v-if="tickets">
       <thead>
         <tr>
@@ -50,12 +44,6 @@ const styles = defineStyleX({
         </tr>
       </tbody>
     </table>
-    <button :disabled="!canPrev" @click="prev">
-      上一页
-    </button>
-    {{ page + 1 }} / {{ totalPages }}
-    <button :disabled="!canNext" @click="next">
-      下一页
-    </button>
+    <Pagination v-if="tickets" />
   </main>
 </template>
