@@ -9,10 +9,19 @@ export const ticket = sqliteTable('Ticket', {
   referrer: text().notNull(),
   contact: text(),
   content: text().notNull(),
-  status: text({ enum: ['OPEN', 'IN_PROGRESS', 'REJECTED', 'RESOLVED'] }).default('OPEN').notNull(),
+  status: text({
+    enum: ['OPEN', 'IN_PROGRESS', 'REJECTED', 'RESOLVED'],
+  })
+    .default('OPEN')
+    .notNull(),
   relatedTo: text(),
-  createdAt: numeric().default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-  updatedAt: numeric().default(sql`(CURRENT_TIMESTAMP)`).notNull(),
+  createdAt: numeric()
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+  updatedAt: numeric()
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull()
+    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 }, table => [
   index('ticket_updatedAt_index').on(table.updatedAt),
   index('ticket_createdAt_index').on(table.createdAt),
@@ -21,11 +30,18 @@ export const ticket = sqliteTable('Ticket', {
 
 export const image = sqliteTable('Image', {
   id: text().primaryKey().notNull(),
-  ticketId: text().notNull().references(() => ticket.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+  ticketId: text()
+    .notNull()
+    .references(() => ticket.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
   content: blob({ mode: 'buffer' }),
   usedAt: numeric(),
-  createdAt: numeric().default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-  updatedAt: numeric().default(sql`(CURRENT_TIMESTAMP)`).notNull(),
+  createdAt: numeric()
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+  updatedAt: numeric()
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull()
+    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 }, table => [
   index('image_ticketId_idx').on(table.ticketId),
 ])

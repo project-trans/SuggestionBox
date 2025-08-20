@@ -8,8 +8,8 @@ const envPath = path.resolve(__dirname, '.dev.vars')
 config({ path: envPath })
 
 export default defineConfig({
-  schema: './src/db/schema.ts',
-  out: './src/db',
+  schema: './src/server/db/schema.ts',
+  out: './src/server/db',
   dialect: 'sqlite',
   driver: 'd1-http',
   dbCredentials: {

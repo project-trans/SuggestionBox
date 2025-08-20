@@ -54,11 +54,11 @@ admin.get('/suggestions', arktypeValidator('query', getSuggestionsQuery, (res, c
 
 admin.delete('/images/gc', withDrizzle, async (c) => {
   const db = c.get('drizzle')
-  await db.update(image).set({ content: null, updatedAt: sql`CURRENT_TIMESTAMP` }).where(
+  await db.update(image).set({ content: null }).where(
     lt(image.usedAt, sql`datetime(CURRENT_TIMESTAMP, '-1 days')`),
   ).execute()
   c.status(204)
-  return c.res
+  return c.body(null)
 })
 
 export default admin

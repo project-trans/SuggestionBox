@@ -15,8 +15,13 @@ export function getDrizzle(c: Context<{ Bindings: ENV, Variables: any }>) {
   return drizzle(DB, { schema })
 }
 
+const MAX_IMAGE_SIZE = 1024 * 1024 * 1.9 // 1.9MB
+
 function getLargestImage(images: PhotoSize[]): PhotoSize {
   return images.reduce((largest, current) => {
+    if (current.file_size && current.file_size > MAX_IMAGE_SIZE) {
+      return largest
+    }
     if (current.file_size && largest.file_size && (current.file_size > largest.file_size)) {
       return current
     }
