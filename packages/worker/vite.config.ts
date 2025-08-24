@@ -22,7 +22,7 @@ export default defineConfig({
       analyzerMode: 'static',
       enabled: process.env.CI !== 'true',
     }),
-    stylex(),
+    stylex({ useCSSLayer: true }),
   ],
   resolve: {
     alias: {

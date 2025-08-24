@@ -15,6 +15,21 @@ const styles = defineStyleX({
     WebkitLineClamp: 3,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    minWidth: 0,
+  },
+  table: {
+    borderColor: 'black',
+    borderWidth: '4px',
+    borderStyle: 'solid',
+    borderCollapse: 'collapse',
+    maxWidth: '1280px',
+    margin: 'auto',
+  },
+  tHead: {
+    backgroundColor: 'black',
+    color: '#FEF3DE',
+    fontSize: '1.5rem',
+    textWrap: 'nowrap',
   },
 })
 
@@ -35,8 +50,8 @@ function handleGC() {
       GC cached images
     </button>
     <Pagination v-if="tickets" />
-    <table v-if="tickets">
-      <thead>
+    <table v-if="tickets" v-stylex="styles.table">
+      <thead v-stylex="styles.tHead">
         <tr>
           <th>id</th>
           <th>内容</th>
@@ -54,7 +69,7 @@ function handleGC() {
           <td v-stylex="styles.clamp">
             {{ ticket.content }}
           </td>
-          <td>{{ new Date(ticket.createdAt).toISOString() }}</td>
+          <td>{{ ticket.createdAt }}</td>
           <td>{{ STATUS_MAP[ticket.status] }}</td>
         </tr>
       </tbody>
