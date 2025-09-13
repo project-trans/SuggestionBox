@@ -3,7 +3,7 @@ import type { InputMediaPhoto } from 'grammy/types'
 import type { ENV } from '../types'
 import { Buffer } from 'node:buffer'
 import { eq, sql } from 'drizzle-orm'
-import { Bot, InputFile, InputMediaBuilder } from 'grammy'
+import { Bot, InlineKeyboard, InputFile, InputMediaBuilder } from 'grammy'
 import { env } from 'hono/adapter'
 import { createMiddleware } from 'hono/factory'
 import * as schema from '../db/schema'
@@ -17,6 +17,8 @@ interface Ticket {
   contact: string
   content: string
   images: InputMediaPhoto[]
+  /** Telegram keyboard */
+  keyboard: InlineKeyboard
   /** Telegram message */
   message: string
 }
@@ -32,12 +34,14 @@ export const withDrizzle = createMiddleware<{
   await next()
 })
 
-export const decodeTicket = createMiddleware<{ Variables: { ticket: Ticket } }>(
+export const decodeTicket = createMiddleware<{ Variables: { ticket: Ticket }, Bindings: ENV }>(
   async (c, next) => {
+    const { SERVE_URL = '' } = env(c)
     try {
       const form = await c.req.formData()
 
       const ticketId = getTicketId()
+      const ticketUrl = new URL(`/ticket/${ticketId.substring(1)}`, SERVE_URL).toString()
       const metaIP = c.req.header(IP_HEADER) || ''
       const metaReferrer = form.get('referrer') || c.req.header('Referer') || ''
       const metaUA = c.req.header('User-Agent') || ''
@@ -83,6 +87,10 @@ export const decodeTicket = createMiddleware<{ Variables: { ticket: Ticket } }>(
           )}</code></pre>`,
         )
       }
+      const keyboard = new InlineKeyboard()
+      if (SERVE_URL && !SERVE_URL.includes('localhost')) {
+        keyboard.url('管理后台', ticketUrl)
+      }
       const message = msgs.join('\n')
 
       if (msgImages.length) {
@@ -98,6 +106,7 @@ export const decodeTicket = createMiddleware<{ Variables: { ticket: Ticket } }>(
         contact: contactContent,
         content: textContent,
         images: msgImages,
+        keyboard,
         message,
       }
       c.set('ticket', ticket)

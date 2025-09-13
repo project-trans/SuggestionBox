@@ -29,7 +29,11 @@ router.post('/', decodeTicket, withDrizzle, async (c) => {
     images = getImagesID(msg)
   }
   else {
-    await bot.api.sendMessage(TG_GROUP_ID, ticket.message, { parse_mode: 'HTML' })
+    await bot.api.sendMessage(
+      TG_GROUP_ID,
+      ticket.message,
+      { parse_mode: 'HTML', reply_markup: ticket.keyboard },
+    )
   }
   const newTicket: typeof ticketTable.$inferInsert = {
     id: ticket.id,
