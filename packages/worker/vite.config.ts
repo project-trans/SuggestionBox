@@ -4,6 +4,7 @@ import { cloudflare } from '@cloudflare/vite-plugin'
 import { stylex } from '@stylex-extend/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import Icons from 'unplugin-icons/vite'
 import { defineConfig } from 'vite'
 import { analyzer } from 'vite-bundle-analyzer'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -22,7 +23,8 @@ export default defineConfig({
       analyzerMode: 'static',
       enabled: process.env.CI !== 'true',
     }),
-    stylex({ useCSSLayer: true }),
+    Icons({ compiler: 'vue3' }),
+    stylex({ useCSSLayer: true, unstable_moduleResolution: { type: 'commonJS' } }),
   ],
   resolve: {
     alias: {

@@ -6,7 +6,7 @@
     "paths": {
       "@/*": ["./src/admin/*"]
     },
-    "types": ["vue-macros/macros-global"]
+    "types": ["vue-macros/macros-global", "unplugin-icons/types/vue"]
   },
   "include": ["env.d.ts", "src/admin/**/*", "src/admin/**/*.vue"],
   "exclude": ["src/admin/**/__tests__/*"],

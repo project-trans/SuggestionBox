@@ -1,22 +1,13 @@
 <script setup lang="ts">
 import ky from 'ky'
-import { RouterLink } from 'vue-router'
 import Pagination from '@/components/Pagination.vue'
+import TableRow from '@/components/TableRow.vue'
 import { useTokens } from '@/composables/auth'
 import { useSuggestions } from '@/composables/suggestion'
-import { STATUS_MAP } from '@/utils'
 
 const { data: tickets } = await useSuggestions()
 
 const styles = defineStyleX({
-  clamp: {
-    display: '-webkit-box',
-    WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: 3,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    minWidth: 0,
-  },
   table: {
     borderColor: 'black',
     borderWidth: '4px',
@@ -60,18 +51,11 @@ function handleGC() {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="ticket in tickets.suggestions" :key="ticket.id">
-          <td>
-            <RouterLink :to="`/ticket/${ticket.id.substring(1)}`">
-              {{ ticket.id }}
-            </RouterLink>
-          </td>
-          <td v-stylex="styles.clamp">
-            {{ ticket.content }}
-          </td>
-          <td>{{ ticket.createdAt }}</td>
-          <td>{{ STATUS_MAP[ticket.status] }}</td>
-        </tr>
+        <TableRow
+          v-for="ticket in tickets.suggestions"
+          :key="ticket.id"
+          :ticket="ticket"
+        />
       </tbody>
     </table>
     <Pagination v-if="tickets" />

@@ -18,7 +18,7 @@ interface Ticket {
   }[]
 }
 
-interface TicketAdmin extends Ticket {
+export interface TicketAdmin extends Ticket {
   ip: string
   ua: string
 }
