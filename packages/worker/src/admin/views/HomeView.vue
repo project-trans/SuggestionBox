@@ -9,10 +9,11 @@ const { data: tickets } = await useSuggestions()
 
 const styles = defineStyleX({
   table: {
+    display: 'grid',
+    gridTemplateColumns: 'fit-content(20rem) auto fit-content(15rem) min-content',
     borderColor: 'black',
     borderWidth: '4px',
     borderStyle: 'solid',
-    borderCollapse: 'collapse',
     maxWidth: '1280px',
     margin: 'auto',
   },
@@ -41,23 +42,25 @@ function handleGC() {
       GC cached images
     </button>
     <Pagination v-if="tickets" />
-    <table v-if="tickets" v-stylex="styles.table">
-      <thead v-stylex="styles.tHead">
-        <tr>
-          <th>id</th>
-          <th>内容</th>
-          <th>提交时间</th>
-          <th>状态</th>
-        </tr>
-      </thead>
-      <tbody>
-        <TableRow
-          v-for="ticket in tickets.suggestions"
-          :key="ticket.id"
-          :ticket="ticket"
-        />
-      </tbody>
-    </table>
+    <div v-if="tickets" v-stylex="styles.table">
+      <div v-stylex="styles.tHead">
+        id
+      </div>
+      <div v-stylex="styles.tHead">
+        内容
+      </div>
+      <div v-stylex="styles.tHead">
+        提交时间
+      </div>
+      <div v-stylex="styles.tHead">
+        状态
+      </div>
+      <TableRow
+        v-for="ticket in tickets.suggestions"
+        :key="ticket.id"
+        :ticket="ticket"
+      />
+    </div>
     <Pagination v-if="tickets" />
   </main>
 </template>

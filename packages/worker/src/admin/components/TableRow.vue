@@ -20,6 +20,8 @@ import { brown, gray, green } from '@/utils/colors.stylex'
 const props = defineProps<{ ticket: TicketAdmin }>()
 
 const styles = defineStyleX({
+  fullHeight: { height: '100%' },
+  link: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' },
   clamp: {
     display: '-webkit-box',
     WebkitBoxOrient: 'vertical',
@@ -27,6 +29,7 @@ const styles = defineStyleX({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     minWidth: 0,
+    margin: '0.25rem',
   },
   status: {
     width: '100%',
@@ -60,65 +63,65 @@ const styles = defineStyleX({
 </script>
 
 <template>
-  <tr>
-    <td>
-      <RouterLink :to="`/ticket/${ticket.id.substring(1)}`">
-        {{ props.ticket.id }}
-      </RouterLink>
-    </td>
-    <td v-stylex="styles.clamp">
-      {{ props.ticket.content }}
-    </td>
-    <td>{{ props.ticket.createdAt }}</td>
-    <td :title="STATUS_MAP[props.ticket.status]">
-      <SelectRoot :model-value="props.ticket.status">
-        <SelectTrigger
-          as="div"
+  <div v-stylex="styles.link">
+    <RouterLink :to="`/ticket/${ticket.id.substring(1)}`">
+      {{ props.ticket.id }}
+    </RouterLink>
+  </div>
+  <div v-stylex="styles.clamp">
+    {{ props.ticket.content }}
+  </div>
+  <div>{{ props.ticket.createdAt }}</div>
+  <div :title="STATUS_MAP[props.ticket.status]">
+    <SelectRoot :model-value="props.ticket.status">
+      <SelectTrigger
+        v-stylex="styles.fullHeight"
+        as="div"
+      >
+        <SelectValue
+          v-slot="{ modelValue }" v-stylex="(
+            styles.fullHeight,
+            styles.status,
+            props.ticket.status === 'OPEN' && styles.statusOpen,
+            props.ticket.status === 'IN_PROGRESS' && styles.statusInProcess,
+            props.ticket.status === 'REJECTED' && styles.statusRejected,
+            props.ticket.status === 'RESOLVED' && styles.statusResolved
+          )"
         >
-          <SelectValue
-            v-slot="{ modelValue }" v-stylex="(
-              styles.status,
-              props.ticket.status === 'OPEN' && styles.statusOpen,
-              props.ticket.status === 'IN_PROGRESS' && styles.statusInProcess,
-              props.ticket.status === 'REJECTED' && styles.statusRejected,
-              props.ticket.status === 'RESOLVED' && styles.statusResolved
-            )"
-          >
-            <MaterialSymbolsCircleOutline v-if="modelValue === 'OPEN'" />
-            <MaterialSymbolsArrowCircleRightOutline v-else-if="modelValue === 'IN_PROGRESS'" />
-            <MaterialSymbolsCancelOutline v-else-if="modelValue === 'REJECTED'" />
-            <MaterialSymbolsCheckCircleOutline v-else-if="modelValue === 'RESOLVED'" />
-          </SelectValue>
-        </SelectTrigger>
-        <SelectPortal>
-          <SelectContent style="flex-direction: row;">
-            <SelectViewport>
-              <SelectItem
-                v-for="status in Object.keys(STATUS_MAP) as (keyof typeof STATUS_MAP)[]"
-                :key="status"
-                :value="status"
+          <MaterialSymbolsCircleOutline v-if="modelValue === 'OPEN'" />
+          <MaterialSymbolsArrowCircleRightOutline v-else-if="modelValue === 'IN_PROGRESS'" />
+          <MaterialSymbolsCancelOutline v-else-if="modelValue === 'REJECTED'" />
+          <MaterialSymbolsCheckCircleOutline v-else-if="modelValue === 'RESOLVED'" />
+        </SelectValue>
+      </SelectTrigger>
+      <SelectPortal>
+        <SelectContent>
+          <SelectViewport>
+            <SelectItem
+              v-for="status in Object.keys(STATUS_MAP) as (keyof typeof STATUS_MAP)[]"
+              :key="status"
+              :value="status"
+            >
+              <SelectItemText
+                v-stylex="(
+                  styles.status,
+                  styles.selectItemText,
+                  status === 'OPEN' && styles.statusOpen,
+                  status === 'IN_PROGRESS' && styles.statusInProcess,
+                  status === 'REJECTED' && styles.statusRejected,
+                  status === 'RESOLVED' && styles.statusResolved
+                )"
               >
-                <SelectItemText
-                  v-stylex="(
-                    styles.status,
-                    styles.selectItemText,
-                    status === 'OPEN' && styles.statusOpen,
-                    status === 'IN_PROGRESS' && styles.statusInProcess,
-                    status === 'REJECTED' && styles.statusRejected,
-                    status === 'RESOLVED' && styles.statusResolved
-                  )"
-                >
-                  <MaterialSymbolsCircleOutline v-if="status === 'OPEN'" />
-                  <MaterialSymbolsArrowCircleRightOutline v-else-if="status === 'IN_PROGRESS'" />
-                  <MaterialSymbolsCancelOutline v-else-if="status === 'REJECTED'" />
-                  <MaterialSymbolsCheckCircleOutline v-else-if="status === 'RESOLVED'" />
-                  {{ STATUS_MAP[status] }}
-                </SelectItemText>
-              </SelectItem>
-            </SelectViewport>
-          </SelectContent>
-        </SelectPortal>
-      </SelectRoot>
-    </td>
-  </tr>
+                <MaterialSymbolsCircleOutline v-if="status === 'OPEN'" />
+                <MaterialSymbolsArrowCircleRightOutline v-else-if="status === 'IN_PROGRESS'" />
+                <MaterialSymbolsCancelOutline v-else-if="status === 'REJECTED'" />
+                <MaterialSymbolsCheckCircleOutline v-else-if="status === 'RESOLVED'" />
+                {{ STATUS_MAP[status] }}
+              </SelectItemText>
+            </SelectItem>
+          </SelectViewport>
+        </SelectContent>
+      </SelectPortal>
+    </SelectRoot>
+  </div>
 </template>
