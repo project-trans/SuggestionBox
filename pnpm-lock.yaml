@@ -168,6 +168,9 @@ importers:
       dotenv:
         specifier: ^17.2.2
         version: 17.2.2
+      drizzle-arktype:
+        specifier: ^0.1.3
+        version: 0.1.3(arktype@2.1.22)(drizzle-orm@0.44.5(@cloudflare/workers-types@4.20250913.0))
       drizzle-kit:
         specifier: ^0.31.4
         version: 0.31.4
@@ -2488,6 +2491,12 @@ packages:
   dotenv@17.2.2:
     resolution: {integrity: sha512-Sf2LSQP+bOlhKWWyhFsn0UsfdK/kCWRv1iuA2gXAwt3dyNabr6QSj00I2V10pidqz69soatm9ZwZvpQMTIOd5Q==}
     engines: {node: '>=12'}
+
+  drizzle-arktype@0.1.3:
+    resolution: {integrity: sha512-X66GB2pz7Nb+NmCZefDXpdoglxjGYnB2yRU5umAK2stVkl4rvV6i6XbMg1+w1HiY/ydC8gJVq4jKAARYazpb3g==}
+    peerDependencies:
+      arktype: '>=2.0.0'
+      drizzle-orm: '>=0.36.0'
 
   drizzle-kit@0.31.4:
     resolution: {integrity: sha512-tCPWVZWZqWVx2XUsVpJRnH9Mx0ClVOf5YUHerZ5so1OKSlqww4zy1R5ksEdGRcO3tM3zj0PYN6V48TbQCL1RfA==}
@@ -6841,6 +6850,11 @@ snapshots:
       dequal: 2.0.3
 
   dotenv@17.2.2: {}
+
+  drizzle-arktype@0.1.3(arktype@2.1.22)(drizzle-orm@0.44.5(@cloudflare/workers-types@4.20250913.0)):
+    dependencies:
+      arktype: 2.1.22
+      drizzle-orm: 0.44.5(@cloudflare/workers-types@4.20250913.0)
 
   drizzle-kit@0.31.4:
     dependencies:
