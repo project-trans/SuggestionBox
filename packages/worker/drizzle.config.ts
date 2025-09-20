@@ -4,12 +4,13 @@ import { config } from 'dotenv'
 import { defineConfig } from 'drizzle-kit'
 
 const envPath = path.resolve(__dirname, '.dev.vars')
+const schemaPath = path.resolve(__dirname, './src/server/db/schema.ts')
 
 config({ path: envPath })
 
 export default defineConfig({
-  schema: './src/server/db/schema.ts',
-  out: './src/server/db',
+  schema: schemaPath,
+  out: path.resolve(schemaPath, '../migrations'),
   dialect: 'sqlite',
   driver: 'd1-http',
   dbCredentials: {
