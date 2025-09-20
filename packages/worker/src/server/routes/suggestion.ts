@@ -1,4 +1,5 @@
 import type { ENV } from '../types'
+import { createUpdateSchema } from 'drizzle-arktype'
 import { eq } from 'drizzle-orm'
 import { Bot } from 'grammy'
 import { Hono } from 'hono'
@@ -6,7 +7,8 @@ import { env } from 'hono/adapter'
 import markdownit from 'markdown-it'
 import { image as imageTable, ticket as ticketTable } from '../db/schema'
 import { decodeTicket, withDrizzle } from '../middlewares'
-import { getImagesID, newSuccess } from '../utils'
+import { protectWithAuthorization } from '../middlewares/authorization'
+import { createArktypeValidator, getImagesID, newSuccess } from '../utils'
 
 const router = new Hono<{ Bindings: ENV }>()
 
@@ -69,5 +71,22 @@ router.get('/:id', withDrizzle, async (c) => {
     data: ticket,
   })
 })
+
+const updateTicketSchema = createUpdateSchema(
+  ticketTable,
+  { id: schema => schema.exclude('string') },
+)
+
+router.put(
+  '/:id',
+  createArktypeValidator(updateTicketSchema),
+  protectWithAuthorization,
+  withDrizzle,
+  async (c) => {
+    const db = c.get('drizzle')
+    const newData = c.req.valid('json')
+    db.update(ticketTable).set(newData).where(eq(ticketTable.id, `#${c.req.param('id')}`))
+  },
+)
 
 export default router

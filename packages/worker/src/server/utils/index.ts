@@ -1,6 +1,8 @@
+import type { Type } from 'arktype'
 import type { Message, PhotoSize } from 'grammy/types'
 import type { Context } from 'hono'
 import type { ENV } from '../types'
+import { arktypeValidator } from '@hono/arktype-validator'
 import { drizzle } from 'drizzle-orm/d1'
 import { env } from 'hono/adapter'
 import ky from 'ky'
@@ -108,4 +110,15 @@ export async function verifyGhToken(token: string, orgName: string): Promise<{
     console.error(e)
     return { success: false, data: null }
   }
+}
+
+export function createArktypeValidator<U extends Type<unknown>>(schema: U) {
+  return arktypeValidator(
+    'json',
+    schema,
+    (res, c) => {
+      if (!res.success)
+        return c.json(newErrorFormat400('Invalid request format'), 400)
+    },
+  )
 }

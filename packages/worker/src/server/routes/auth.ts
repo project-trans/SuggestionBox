@@ -1,12 +1,11 @@
 import type { ENV } from '../types'
-import { arktypeValidator } from '@hono/arktype-validator'
 import { type } from 'arktype'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { sign, verify } from 'hono/jwt'
 import ky from 'ky'
 import { nanoid } from 'nanoid'
-import { newErrorFormat400 } from '../utils'
+import { createArktypeValidator, newErrorFormat400 } from '../utils'
 
 const auth = new Hono<{ Bindings: ENV }>()
 
@@ -52,14 +51,7 @@ export interface GhAuthResponse extends GhAuthSuccess {
   refresh_expires_at: number
 }
 
-auth.post('/get_token', arktypeValidator(
-  'json',
-  getTokenRequest,
-  (res, c) => {
-    if (!res.success)
-      return c.json(newErrorFormat400('Invalid request format'), 400)
-  },
-), async (c) => {
+auth.post('/get_token', createArktypeValidator(getTokenRequest), async (c) => {
   const { JWT_SECRET, GH_APP_CLIENT_ID, GH_APP_CLIENT_SECRET } = env(c)
   const { code, state: cipheredState } = c.req.valid('json')
   const state = await verify(cipheredState, JWT_SECRET)
@@ -96,14 +88,7 @@ const refreshTokenRequest = type({
   refreshToken: 'string',
 })
 
-auth.post('/refresh_token', arktypeValidator(
-  'json',
-  refreshTokenRequest,
-  (res, c) => {
-    if (!res.success)
-      return c.json(newErrorFormat400('Invalid request format'), 400)
-  },
-), async (c) => {
+auth.post('/refresh_token', createArktypeValidator(refreshTokenRequest), async (c) => {
   const { GH_APP_CLIENT_ID, GH_APP_CLIENT_SECRET } = env(c)
   const { refreshToken } = c.req.valid('json')
   const response: GhAuthFailure | GhAuthSuccess = await ky('https://github.com/login/oauth/access_token', {
