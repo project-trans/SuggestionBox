@@ -19,7 +19,7 @@
     "drizzle-orm": "^0.44.5",
     "file-type": "^21.0.0",
     "grammy": "^1.38.2",
-    "hono": "^4.9.7",
+    "hono": "^4.9.8",
     "ky": "^1.10.0",
     "markdown-it": "^14.1.0",
     "nanoid": "^5.1.5",
@@ -29,16 +29,16 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.13.0",
-    "@cloudflare/workers-types": "^4.20250913.0",
-    "@iconify-json/material-symbols": "^1.2.34",
+    "@cloudflare/vite-plugin": "^1.13.3",
+    "@cloudflare/workers-types": "^4.20250921.0",
+    "@iconify-json/material-symbols": "^1.2.37",
     "@pinia/colada-devtools": "^0.1.6",
     "@stylex-extend/core": "^0.7.1",
     "@stylex-extend/vite": "^0.7.1",
     "@stylexjs/stylex": "^0.15.4",
     "@tsconfig/node24": "^24.0.1",
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^24.3.3",
+    "@types/node": "^24.5.2",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "@vue/tsconfig": "^0.8.1",
@@ -49,11 +49,11 @@
     "typescript": "~5.9.2",
     "unplugin-icons": "^22.3.0",
     "unplugin-stylex": "^0.5.4",
-    "vite": "^7.1.5",
+    "vite": "^7.1.6",
     "vite-bundle-analyzer": "^1.2.3",
     "vite-plugin-vue-devtools": "^8.0.2",
     "vue-macros": "https://pkg.pr.new/vue-macros@990",
     "vue-tsc": "^3.0.7",
-    "wrangler": "^4.36.0"
+    "wrangler": "^4.38.0"
   }
 }
