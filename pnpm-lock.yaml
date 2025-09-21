@@ -1876,27 +1876,27 @@ packages:
 
   '@vue-macros/api@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/api@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/api@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/better-define@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/better-define@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/better-define@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/boolean-prop@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/boolean-prop@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/boolean-prop@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/chain-call@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/chain-call@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/chain-call@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/common@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/common@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/common@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
@@ -1906,19 +1906,19 @@ packages:
 
   '@vue-macros/config@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/config@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/config@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/define-emit@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-emit@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-emit@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/define-models@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-models@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-models@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       '@vueuse/core': '>=9.0.0'
@@ -1928,48 +1928,48 @@ packages:
 
   '@vue-macros/define-prop@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-prop@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-prop@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/define-props-refs@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-props-refs@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-props-refs@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/define-props@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-props@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-props@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
-      '@vue-macros/reactivity-transform': ^3.0.0-beta.21
+      '@vue-macros/reactivity-transform': ^3.0.0-beta.23
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/define-render@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-render@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-render@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
   '@vue-macros/define-slots@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-slots@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-slots@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
   '@vue-macros/define-stylex@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-stylex@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/define-stylex@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/devtools@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/devtools@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/devtools@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vite: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -1979,87 +1979,87 @@ packages:
 
   '@vue-macros/export-expose@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/export-expose@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/export-expose@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/export-props@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/export-props@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/export-props@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/export-render@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/export-render@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/export-render@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/hoist-static@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/hoist-static@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/hoist-static@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/jsx-directive@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/jsx-directive@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/jsx-directive@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/named-template@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/named-template@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/named-template@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/reactivity-transform@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/reactivity-transform@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/reactivity-transform@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
 
   '@vue-macros/script-lang@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/script-lang@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/script-lang@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
   '@vue-macros/setup-block@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/setup-block@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/setup-block@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/setup-component@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/setup-component@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/setup-component@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/setup-sfc@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/setup-sfc@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/setup-sfc@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/short-bind@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/short-bind@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/short-bind@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/short-emits@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/short-emits@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/short-emits@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/short-vmodel@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/short-vmodel@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/short-vmodel@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   '@vue-macros/volar@https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/volar@2076eef':
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/@vue-macros/volar@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue-tsc: 3.0.5
@@ -4204,7 +4204,7 @@ packages:
 
   unplugin-vue-define-options@https://pkg.pr.new/vue-macros/vue-macros/unplugin-vue-define-options@2076eef:
     resolution: {tarball: https://pkg.pr.new/vue-macros/vue-macros/unplugin-vue-define-options@2076eef}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
 
   unplugin@1.16.1:
@@ -4364,7 +4364,7 @@ packages:
 
   vue-macros@https://pkg.pr.new/vue-macros@990:
     resolution: {tarball: https://pkg.pr.new/vue-macros@990}
-    version: 3.0.0-beta.21
+    version: 3.0.0-beta.23
     engines: {node: '>=20.18.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25

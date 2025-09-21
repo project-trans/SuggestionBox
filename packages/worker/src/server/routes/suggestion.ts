@@ -1,6 +1,6 @@
 import type { ENV } from '../types'
 import { createUpdateSchema } from 'drizzle-arktype'
-import { eq } from 'drizzle-orm'
+import { and, count, eq, gte, sql } from 'drizzle-orm'
 import { Bot } from 'grammy'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
@@ -24,6 +24,17 @@ router.post('/', decodeTicket, withDrizzle, async (c) => {
   const bot = new Bot(TG_BOT_TOKEN)
 
   const ticket = c.get('ticket')
+  const existing = await db.select({ count: count() }).from(ticketTable).where(
+    and(
+      eq(ticketTable.ip, ticket.ip),
+      eq(ticketTable.ua, ticket.ua),
+      gte(ticketTable.createdAt, sql`datetime('now', '-1 hour')`),
+    ),
+  )
+
+  if (existing[0].count >= 2) {
+    return c.json({ code: 429, message: 'Too many requests' }, 429)
+  }
 
   let images: string[] = []
   if (ticket.images.length) {
