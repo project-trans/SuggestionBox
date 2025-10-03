@@ -15,13 +15,24 @@ import MaterialSymbolsCancelOutline from '~icons/material-symbols/cancel-outline
 import MaterialSymbolsCheckCircleOutline from '~icons/material-symbols/check-circle-outline'
 import MaterialSymbolsCircleOutline from '~icons/material-symbols/circle-outline'
 import { STATUS_MAP } from '@/utils'
-import { brown, gray, green } from '@/utils/colors.stylex'
+import { black, brown, gray, green } from '@/utils/colors.stylex'
 
 const props = defineProps<{ ticket: TicketAdmin }>()
 
 const styles = defineStyleX({
+  tableText: {
+    fontWeight: 600,
+    fontSize: '1.5rem',
+    color: black.text,
+  },
   fullHeight: { height: '100%' },
-  link: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' },
+  link: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    height: '100%',
+  },
   clamp: {
     display: '-webkit-box',
     WebkitBoxOrient: 'vertical',
@@ -29,7 +40,7 @@ const styles = defineStyleX({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     minWidth: 0,
-    margin: '0.25rem',
+    margin: '1rem 0.5rem',
   },
   status: {
     width: '100%',
@@ -64,18 +75,20 @@ const styles = defineStyleX({
 
 <template>
   <div v-stylex="styles.link">
-    <RouterLink :to="`/ticket/${ticket.id.substring(1)}`">
+    <RouterLink v-stylex="styles.tableText" :to="`/ticket/${ticket.id.substring(1)}`">
       {{ props.ticket.id }}
     </RouterLink>
   </div>
-  <div v-stylex="styles.clamp">
+  <div v-stylex="(styles.clamp, styles.tableText)">
     {{ props.ticket.content }}
   </div>
-  <div>{{ props.ticket.createdAt }}</div>
+  <div v-stylex="styles.tableText">
+    {{ props.ticket.createdAt }}
+  </div>
   <div :title="STATUS_MAP[props.ticket.status]">
     <SelectRoot :model-value="props.ticket.status">
       <SelectTrigger
-        v-stylex="styles.fullHeight"
+        v-stylex="(styles.fullHeight, styles.tableText)"
         as="div"
       >
         <SelectValue

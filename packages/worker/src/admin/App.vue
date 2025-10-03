@@ -74,3 +74,7 @@ const styles = defineStyleX({
   opacity: 0;
 }
 </style>
+
+<style>
+@import 'https://fonts.project-trans.org/ChillDINGothic/result.css';
+</style>

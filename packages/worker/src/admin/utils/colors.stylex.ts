@@ -1,5 +1,11 @@
 import { defineVars } from '@stylexjs/stylex'
 
+export const black = defineVars({
+  background: '#261D11',
+  text: '#261D11F2',
+  contrast: '#FAF2D3',
+})
+
 export const gray = defineVars({
   1: 'oklch(0.100 0.000 174.0)',
   2: 'oklch(0.200 0.000 174.0)',

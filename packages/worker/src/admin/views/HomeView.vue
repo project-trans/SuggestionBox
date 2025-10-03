@@ -4,6 +4,7 @@ import Pagination from '@/components/Pagination.vue'
 import TableRow from '@/components/TableRow.vue'
 import { useTokens } from '@/composables/auth'
 import { useSuggestions } from '@/composables/suggestion'
+import { black } from '@/utils/colors.stylex'
 
 const { data: tickets } = await useSuggestions()
 
@@ -11,16 +12,17 @@ const styles = defineStyleX({
   table: {
     display: 'grid',
     gridTemplateColumns: 'fit-content(20rem) auto fit-content(15rem) min-content',
-    borderColor: 'black',
+    borderColor: black.background,
     borderWidth: '4px',
     borderStyle: 'solid',
     maxWidth: '1280px',
     margin: 'auto',
   },
   tHead: {
-    backgroundColor: 'black',
-    color: '#FEF3DE',
-    fontSize: '1.5rem',
+    backgroundColor: black.background,
+    color: black.contrast,
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
     textWrap: 'nowrap',
   },
 })
@@ -44,16 +46,16 @@ function handleGC() {
     <Pagination v-if="tickets" />
     <div v-if="tickets" v-stylex="styles.table">
       <div v-stylex="styles.tHead">
-        id
+        ID
       </div>
       <div v-stylex="styles.tHead">
-        内容
+        Content
       </div>
       <div v-stylex="styles.tHead">
-        提交时间
+        Time
       </div>
       <div v-stylex="styles.tHead">
-        状态
+        Status
       </div>
       <TableRow
         v-for="ticket in tickets.suggestions"
