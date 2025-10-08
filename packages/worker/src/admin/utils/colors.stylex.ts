@@ -4,6 +4,16 @@ export const black = defineVars({
   background: '#261D11',
   text: '#261D11F2',
   contrast: '#FAF2D3',
+  contrast2: '#EAE7E1',
+})
+
+export const indigo = defineVars({
+  background: '#17395CF2',
+  contrast: '#EAE7E1',
+})
+
+export const yellow = defineVars({
+  background: '#FFF6D4',
 })
 
 export const gray = defineVars({

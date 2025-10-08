@@ -9,7 +9,7 @@ import 'virtual:stylex.css'
 injectGlobalStyle({
   'body': { margin: 0 },
   ':root': {
-    backgroundColor: '#FFF0B280',
+    backgroundColor: '#FFF6D4',
     fontFamily: 'ChillDINGothic, ui-sans-serif, system-ui, sans-serif, \'Apple Color Emoji\', \'Segoe UI Emoji\', \'Segoe UI Symbol\', \'Noto Color Emoji\'',
   },
 })
